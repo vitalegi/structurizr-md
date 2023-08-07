@@ -2,6 +2,7 @@ package it.vitalegi.structurizr.gen.service;
 
 import com.structurizr.Workspace;
 import com.structurizr.export.Diagram;
+import com.structurizr.export.dot.DOTExporter;
 import com.structurizr.export.plantuml.C4PlantUMLExporter;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
@@ -14,14 +15,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 
-public class DiagramService {
+public class DiagramC4PlantUmlService {
 
     Logger log = LoggerFactory.getLogger(getClass());
 
-    public Collection<Diagram> exportDiagrams(Workspace workspace) {
+    public Collection<Diagram> exportDiagramsC4Plant(Workspace workspace) {
         C4PlantUMLExporter exporter = new C4PlantUMLExporter();
         workspace.getViews().getViews()
                  .forEach(v -> v.addProperty(C4PlantUMLExporter.C4PLANTUML_STANDARD_LIBRARY_PROPERTY, "true"));
+        return exporter.export(workspace);
+    }
+
+    public Collection<Diagram> exportDiagramsDot(Workspace workspace) {
+        var exporter = new DOTExporter();
         return exporter.export(workspace);
     }
 

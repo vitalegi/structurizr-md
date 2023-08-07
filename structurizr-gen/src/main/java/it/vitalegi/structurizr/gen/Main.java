@@ -2,8 +2,10 @@ package it.vitalegi.structurizr.gen;
 
 import it.vitalegi.structurizr.gen.cli.ConfigurationLoader;
 import it.vitalegi.structurizr.gen.operation.AbstractOperation;
+import it.vitalegi.structurizr.gen.operation.GraphvizOperation;
 import it.vitalegi.structurizr.gen.operation.RawOperation;
-import it.vitalegi.structurizr.gen.service.DiagramService;
+import it.vitalegi.structurizr.gen.service.DiagramC4PlantUmlService;
+import it.vitalegi.structurizr.gen.service.DiagramDotService;
 import it.vitalegi.structurizr.gen.service.WorkspaceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +31,7 @@ public class Main {
     }
 
     static List<AbstractOperation> operations() {
-        var diagramService = new DiagramService();
-        return Arrays.asList(new RawOperation(diagramService));
+        return Arrays.asList(new RawOperation(new DiagramC4PlantUmlService()),
+                new GraphvizOperation(new DiagramDotService()));
     }
 }
