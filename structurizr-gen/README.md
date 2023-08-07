@@ -19,5 +19,9 @@ mvn clean package
 ## Run
 
 ```
+mvn clean package
 java -jar target/structurizr-gen-jar-with-dependencies.jar
 ```
+
+### Options
+
