@@ -25,27 +25,29 @@ public class DiagramService {
         return exporter.export(workspace);
     }
 
-    public void saveAsPng(String dir, Diagram diagram) {
+    public File saveAsPng(String dir, Diagram diagram) {
         SourceStringReader reader = new SourceStringReader(diagram.getDefinition());
 
-        File pngFile = new File(mkdir(dir), diagram.getKey() + ".png");
-        log.info("Save diagram in " + pngFile);
-        try (FileOutputStream fos = new FileOutputStream(pngFile)) {
+        File out = new File(mkdir(dir), diagram.getKey() + ".png");
+        log.info("Save diagram as " + out);
+        try (FileOutputStream fos = new FileOutputStream(out)) {
             reader.outputImage(fos, new FileFormatOption(FileFormat.PNG, true));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return out;
     }
 
-    public void saveAsSvg(String dir, Diagram diagram) {
+    public File saveAsSvg(String dir, Diagram diagram) {
         SourceStringReader reader = new SourceStringReader(diagram.getDefinition());
-        File pngFile = new File(mkdir(dir), diagram.getKey() + ".svg");
-        log.info("Save diagram in " + pngFile);
-        try (FileOutputStream fos = new FileOutputStream(pngFile)) {
+        File out = new File(mkdir(dir), diagram.getKey() + ".svg");
+        log.info("Save diagram as " + out);
+        try (FileOutputStream fos = new FileOutputStream(out)) {
             reader.outputImage(fos, new FileFormatOption(FileFormat.SVG, false));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return out;
     }
 
     protected File mkdir(String dir) {
