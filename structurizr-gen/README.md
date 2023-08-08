@@ -31,9 +31,9 @@ mvn clean compile exec:java "-Dexec.args=--dsl sample.dsl --o RAW --out-dir-png 
 ### Generate BitBucket pages
 
 ```
-java -cp target/structurizr-gen-jar-with-dependencies.jar it.vitalegi.structurizr.gen.GenerateBitbucketApp sample.dsl example/md/
+java -cp target/structurizr-gen-jar-with-dependencies.jar it.vitalegi.structurizr.gen.GenerateMarkdownApp sample.dsl example/md/
 ```
 
 ```
-mvn clean compile exec:java "-Dexec.args=sample.dsl example/md/" "-Dexec.mainClass=it.vitalegi.structurizr.gen.GenerateBitbucketApp"
+mvn clean compile exec:java "-Dexec.args=sample.dsl example/md/" "-Dexec.mainClass=it.vitalegi.structurizr.gen.GenerateMarkdownApp"
 ```
