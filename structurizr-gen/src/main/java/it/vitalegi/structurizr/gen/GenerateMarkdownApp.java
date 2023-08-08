@@ -84,7 +84,9 @@ public class GenerateMarkdownApp {
         var diagramRefs = getViews(ctx, view);
         diagramRefs.stream().forEach(dr -> {
             md.println("image " + dr.getKey() + " -> " + dr.getPath());
+            md.println();
             md.image(dr.getKey(), dr.getPath());
+            md.println();
             md.println();
         });
     }
