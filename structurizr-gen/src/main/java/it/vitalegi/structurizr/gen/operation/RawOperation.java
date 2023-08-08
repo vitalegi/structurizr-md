@@ -8,6 +8,7 @@ import it.vitalegi.structurizr.gen.service.DiagramC4PlantUmlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Path;
 import java.util.Collection;
 
 public class RawOperation extends AbstractOperation {
@@ -35,7 +36,7 @@ public class RawOperation extends AbstractOperation {
 
     void process(Diagram diagram, Configuration config) {
         log.info("Export diagram " + diagram.getKey());
-        diagramService.saveAsSvg(config.getOutputDirSvg(), diagram);
-        diagramService.saveAsPng(config.getOutputDirPng(), diagram);
+        diagramService.saveAsSvg(Path.of(config.getOutputDirSvg()), diagram);
+        diagramService.saveAsPng(Path.of(config.getOutputDirPng()), diagram);
     }
 }

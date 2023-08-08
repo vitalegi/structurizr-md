@@ -18,17 +18,22 @@ mvn clean package
 
 ## Run
 
-### With Maven
+### Generate images
 
 ```
-mvn exec:java "-Dexec.args=--dsl 123.dsl" -Dexec.mainClass=it.vitalegi.structurizr.gen.Main
+java -cp target/structurizr-gen-jar-with-dependencies.jar it.vitalegi.structurizr.gen.Main --dsl sample.dsl --o RAW --out-dir-png sample/images/ --out-dir-svg sample/images/
 ```
 
-### With Java
-
 ```
-java -cp target/structurizr-gen-jar-with-dependencies.jar it.vitalegi.structurizr.gen.Main
+mvn clean compile exec:java "-Dexec.args=--dsl sample.dsl --o RAW --out-dir-png sample/images/ --out-dir-svg sample/images/" "-Dexec.mainClass=it.vitalegi.structurizr.gen.Main"
 ```
 
-### Options
+### Generate BitBucket pages
 
+```
+java -cp target/structurizr-gen-jar-with-dependencies.jar it.vitalegi.structurizr.gen.GenerateBitbucketApp sample.dsl example/md/
+```
+
+```
+mvn clean compile exec:java "-Dexec.args=sample.dsl example/md/" "-Dexec.mainClass=it.vitalegi.structurizr.gen.GenerateBitbucketApp"
+```

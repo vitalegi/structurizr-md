@@ -2,8 +2,8 @@ package it.vitalegi.structurizr.gen.service;
 
 import com.structurizr.Workspace;
 import com.structurizr.export.Diagram;
-import com.structurizr.export.dot.DOTExporter;
 import com.structurizr.export.plantuml.C4PlantUMLExporter;
+import it.vitalegi.structurizr.gen.util.FileUtil;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 
 public class DiagramC4PlantUmlService {
@@ -26,39 +27,24 @@ public class DiagramC4PlantUmlService {
         return exporter.export(workspace);
     }
 
-    public Collection<Diagram> exportDiagramsDot(Workspace workspace) {
-        var exporter = new DOTExporter();
-        return exporter.export(workspace);
+    public File saveAsPng(Path dir, Diagram diagram) {
+        return saveAs(dir, diagram.getKey() + ".png", diagram.getDefinition(), FileFormat.PNG);
     }
 
-    public File saveAsPng(String dir, Diagram diagram) {
-        SourceStringReader reader = new SourceStringReader(diagram.getDefinition());
+    public File saveAsSvg(Path dir, Diagram diagram) {
+        return saveAs(dir, diagram.getKey() + ".svg", diagram.getDefinition(), FileFormat.SVG);
+    }
 
-        File out = new File(mkdir(dir), diagram.getKey() + ".png");
+    protected File saveAs(Path dir, String fileName, String definition, FileFormat format) {
+        SourceStringReader reader = new SourceStringReader(definition);
+        FileUtil.createDirs(dir);
+        File out = new File(dir.toFile(), fileName);
         log.info("Save diagram as " + out);
         try (FileOutputStream fos = new FileOutputStream(out)) {
-            reader.outputImage(fos, new FileFormatOption(FileFormat.PNG, true));
+            reader.outputImage(fos, new FileFormatOption(format, false));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         return out;
-    }
-
-    public File saveAsSvg(String dir, Diagram diagram) {
-        SourceStringReader reader = new SourceStringReader(diagram.getDefinition());
-        File out = new File(mkdir(dir), diagram.getKey() + ".svg");
-        log.info("Save diagram as " + out);
-        try (FileOutputStream fos = new FileOutputStream(out)) {
-            reader.outputImage(fos, new FileFormatOption(FileFormat.SVG, false));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return out;
-    }
-
-    protected File mkdir(String dir) {
-        var file = new File(dir);
-        file.mkdirs();
-        return file;
     }
 }
