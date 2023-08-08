@@ -49,7 +49,7 @@ public class MarkdownUtil implements Closeable {
     }
 
     public MarkdownUtil image(String name, String url) {
-        write("[" + name + "](" + url + ")");
+        write("![" + name + "](" + url + ")");
         return this;
     }
 
