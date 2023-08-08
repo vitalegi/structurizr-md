@@ -48,18 +48,23 @@ public class MarkdownUtil implements Closeable {
         return this;
     }
 
+    public MarkdownUtil image(String name, String url) {
+        write("[" + name + "](" + url + ")");
+        return this;
+    }
+
     public MarkdownUtil print(String text) {
         write(text);
         return this;
     }
 
-    public MarkdownUtil println() {
-        write("\n");
+    public MarkdownUtil println(String text) {
+        write(text + "\n");
         return this;
     }
 
-    public MarkdownUtil println(String text) {
-        write(text + "\n");
+    public MarkdownUtil println() {
+        write("\n");
         return this;
     }
 

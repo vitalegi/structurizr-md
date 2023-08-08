@@ -84,12 +84,15 @@ public class GenerateMarkdownApp {
         var diagramRefs = getViews(ctx, view);
         diagramRefs.stream().forEach(dr -> {
             md.println("image " + dr.getKey() + " -> " + dr.getPath());
+            md.image(dr.getKey(), dr.getPath().toString());
+            md.println();
         });
     }
 
     protected Stream<DiagramRef> createImages(Path mainDir, Workspace workspace, View view) {
-        var tmp1 = new DiagramRef(view.getKey(), mainDir.resolve(view.getKey() + ".png"), "png");
-        var tmp2 = new DiagramRef(view.getKey(), mainDir.resolve(view.getKey() + ".svg"), "svg");
+        var relativePathImages = Path.of("..", "..", "images");
+        var tmp1 = new DiagramRef(view.getKey(), relativePathImages.resolve(view.getKey() + ".png"), "png");
+        var tmp2 = new DiagramRef(view.getKey(), relativePathImages.resolve(view.getKey() + ".svg"), "svg");
         return Stream.of(tmp1, tmp2);
     }
 
