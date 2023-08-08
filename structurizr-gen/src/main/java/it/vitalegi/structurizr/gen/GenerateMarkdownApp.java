@@ -2,6 +2,7 @@ package it.vitalegi.structurizr.gen;
 
 import com.structurizr.Workspace;
 import com.structurizr.model.SoftwareSystem;
+import com.structurizr.view.DeploymentView;
 import com.structurizr.view.StaticView;
 import com.structurizr.view.View;
 import it.vitalegi.structurizr.gen.model.DiagramRef;
@@ -58,6 +59,11 @@ public class GenerateMarkdownApp {
         return view.getSoftwareSystemId().equals(system.getId());
     }
 
+    protected boolean accept(DeploymentView view, SoftwareSystem system) {
+        return view.getSoftwareSystemId().equals(system.getId());
+    }
+
+
     protected boolean accept(DiagramRef diagramRef, View view) {
         if (diagramRef == null || diagramRef.getKey() == null) {
             return false;
@@ -66,6 +72,12 @@ public class GenerateMarkdownApp {
             return false;
         }
         return diagramRef.getKey().equals(view.getKey());
+    }
+
+    protected void addDescription(MarkdownUtil md, View view) {
+        if (StringUtil.isNotNullOrEmpty(view.getDescription())) {
+            md.println("description: " + view.getDescription());
+        }
     }
 
     protected void addImages(MarkdownUtil md, View view, DslContext ctx) {
@@ -81,25 +93,39 @@ public class GenerateMarkdownApp {
         return Stream.of(tmp1, tmp2);
     }
 
-    protected void createSectionContainers(MarkdownUtil md, Workspace workspace, SoftwareSystem softwareSystem,
-                                           DslContext ctx) {
+    protected void createSection(MarkdownUtil md, Stream<? extends View> views, DslContext ctx) {
+        views.forEach(v -> createSection(md, v, ctx));
+    }
+
+    protected void createSection(MarkdownUtil md, View view, DslContext ctx) {
+        md.h3(getName(view));
+        addDescription(md, view);
+        addImages(md, view, ctx);
+    }
+
+    protected void createSectionContainers(MarkdownUtil md, Workspace workspace, SoftwareSystem ss, DslContext ctx) {
         md.h2("Containers");
-        workspace.getViews().getContainerViews().stream().filter(v -> accept(v, softwareSystem)).forEach(view -> {
-            md.h3(getName(view));
-            safeAddDescription(md, view);
-            addImages(md, view, ctx);
-        });
+        createSection(md, workspace.getViews().getContainerViews().stream().filter(v -> accept(v, ss)), ctx);
+        md.println();
+    }
+
+    protected void createSectionDeployments(MarkdownUtil md, Workspace workspace, SoftwareSystem ss, DslContext ctx) {
+        md.h2("Deployments");
+        createSection(md, workspace.getViews().getDeploymentViews().stream().filter(v -> accept(v, ss)), ctx);
+        md.println();
+    }
+
+    protected void createSectionSystemComponents(MarkdownUtil md, Workspace workspace, SoftwareSystem ss,
+                                                 DslContext ctx) {
+        md.h2("Component Diagrams");
+        createSection(md, workspace.getViews().getComponentViews().stream().filter(v -> accept(v, ss)), ctx);
         md.println();
     }
 
     protected void createSectionSystemContexts(MarkdownUtil md, Workspace workspace, SoftwareSystem ss,
                                                DslContext ctx) {
         md.h2("System Contexts");
-        workspace.getViews().getSystemContextViews().stream().filter(v -> accept(v, ss)).forEach(view -> {
-            md.h3(getName(view));
-            safeAddDescription(md, view);
-            addImages(md, view, ctx);
-        });
+        createSection(md, workspace.getViews().getSystemContextViews().stream().filter(v -> accept(v, ss)), ctx);
         md.println();
     }
 
@@ -110,14 +136,14 @@ public class GenerateMarkdownApp {
 
             createSectionSystemContexts(md, workspace, ss, ctx);
             createSectionContainers(md, workspace, ss, ctx);
-
-            md.h2("Component diagrams");
+            createSectionSystemComponents(md, workspace, ss, ctx);
+            createSectionDeployments(md, workspace, ss, ctx);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    protected String getName(StaticView view) {
+    protected String getName(View view) {
         if (StringUtil.isNotNullOrEmpty(view.getTitle())) {
             return view.getTitle();
         }
@@ -126,12 +152,6 @@ public class GenerateMarkdownApp {
 
     protected List<DiagramRef> getViews(DslContext ctx, View view) {
         return ctx.getImages().stream().filter(dr -> accept(dr, view)).collect(Collectors.toList());
-    }
-
-    protected void safeAddDescription(MarkdownUtil md, StaticView view) {
-        if (StringUtil.isNotNullOrEmpty(view.getDescription())) {
-            md.println("description: " + view.getDescription());
-        }
     }
 
     protected SoftwareSystemPage softwareSystemPage(Path mainDir, Workspace workspace, SoftwareSystem ss,
