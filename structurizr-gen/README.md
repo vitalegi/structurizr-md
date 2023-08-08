@@ -2,7 +2,7 @@
 
 ## Prerequirements
 
-- Java 17
+- Java 11
 - Maven
 - (TBV) <https://graphviz.org/>
 
@@ -18,9 +18,16 @@ mvn clean package
 
 ## Run
 
+### With Maven
+
 ```
-mvn clean package
-java -jar target/structurizr-gen-jar-with-dependencies.jar
+mvn exec:java "-Dexec.args=--dsl 123.dsl" -Dexec.mainClass=it.vitalegi.structurizr.gen.Main
+```
+
+### With Java
+
+```
+java -cp target/structurizr-gen-jar-with-dependencies.jar it.vitalegi.structurizr.gen.Main
 ```
 
 ### Options
