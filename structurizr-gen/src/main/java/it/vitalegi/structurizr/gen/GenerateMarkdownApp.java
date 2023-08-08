@@ -11,6 +11,7 @@ import it.vitalegi.structurizr.gen.model.SoftwareSystemPage;
 import it.vitalegi.structurizr.gen.service.WorkspaceFactory;
 import it.vitalegi.structurizr.gen.util.FileUtil;
 import it.vitalegi.structurizr.gen.util.MarkdownUtil;
+import it.vitalegi.structurizr.gen.util.PathUtil;
 import it.vitalegi.structurizr.gen.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,15 +81,36 @@ public class GenerateMarkdownApp {
         }
     }
 
+    protected void addImage(MarkdownUtil md, DiagramRef dr) {
+        md.image(dr.getKey(), PathUtil.toRelativeUrl(dr.getPath()));
+        md.println();
+        md.println();
+    }
+
     protected void addImages(MarkdownUtil md, View view, DslContext ctx) {
         var diagramRefs = getViews(ctx, view);
-        diagramRefs.stream().forEach(dr -> {
-            md.println("image " + dr.getKey() + " -> " + dr.getPath());
-            md.println();
-            md.image(dr.getKey(), dr.getPath());
-            md.println();
-            md.println();
-        });
+        if (diagramRefs.isEmpty()) {
+            return;
+        }
+        var png = diagramRefs.stream().filter(dr -> dr.getType().equals("png")).findFirst().orElse(null);
+
+        if (png != null) {
+            addImage(md, png);
+            for (var i = 0; i < diagramRefs.size(); i++) {
+                if (i > 0) {
+                    md.print(" | ");
+                }
+                addLink(md, diagramRefs.get(i));
+            }
+            ;
+        } else {
+            diagramRefs.stream().forEach(dr -> addImage(md, dr));
+        }
+        md.println();
+    }
+
+    protected void addLink(MarkdownUtil md, DiagramRef dr) {
+        md.link(PathUtil.toRelativeUrl(dr.getPath()));
     }
 
     protected Stream<DiagramRef> createImages(Path mainDir, Workspace workspace, View view) {

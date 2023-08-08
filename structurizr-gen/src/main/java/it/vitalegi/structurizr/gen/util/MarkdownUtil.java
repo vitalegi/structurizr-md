@@ -48,9 +48,14 @@ public class MarkdownUtil implements Closeable {
         return this;
     }
 
-    public MarkdownUtil image(String name, Path path) {
-        var relativeUrl = path.toString().replace("\\", "/");
-        write("![" + name + "](" + relativeUrl + ")");
+    public MarkdownUtil image(String name, String url) {
+        write("![" + name + "](" + url + ")");
+        return this;
+    }
+
+    public MarkdownUtil link(String url) {
+        write("<" + url + ">");
+        write("<a href=\""+url+"\">test</a>");
         return this;
     }
 

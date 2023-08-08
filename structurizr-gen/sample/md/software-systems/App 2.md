@@ -5,50 +5,30 @@
 ### App 2 - System Context
 
 description: System context description...
-image app2_sc -> ..\..\images\app2_sc.png
-
 ![app2_sc](../../images/app2_sc.png)
 
-image app2_sc -> ..\..\images\app2_sc.svg
-
-![app2_sc](../../images/app2_sc.svg)
-
+<../../images/app2_sc.png><a href="../../images/app2_sc.png">test</a> | <../../images/app2_sc.svg><a href="../../images/app2_sc.svg">test</a>
 
 ## Containers
 
 ### App 2 - Containers
 
-image app2_ct -> ..\..\images\app2_ct.png
-
 ![app2_ct](../../images/app2_ct.png)
 
-image app2_ct -> ..\..\images\app2_ct.svg
-
-![app2_ct](../../images/app2_ct.svg)
-
+<../../images/app2_ct.png><a href="../../images/app2_ct.png">test</a> | <../../images/app2_ct.svg><a href="../../images/app2_ct.svg">test</a>
 
 ## Component Diagrams
 
 ### App 2 - Database - Components
 
-image app2_database_c -> ..\..\images\app2_database_c.png
-
 ![app2_database_c](../../images/app2_database_c.png)
 
-image app2_database_c -> ..\..\images\app2_database_c.svg
-
-![app2_database_c](../../images/app2_database_c.svg)
-
+<../../images/app2_database_c.png><a href="../../images/app2_database_c.png">test</a> | <../../images/app2_database_c.svg><a href="../../images/app2_database_c.svg">test</a>
 ### App 2 - Web Application - Components
-
-image app2_webapp_c -> ..\..\images\app2_webapp_c.png
 
 ![app2_webapp_c](../../images/app2_webapp_c.png)
 
-image app2_webapp_c -> ..\..\images\app2_webapp_c.svg
-
-![app2_webapp_c](../../images/app2_webapp_c.svg)
-
+<../../images/app2_webapp_c.png><a href="../../images/app2_webapp_c.png">test</a> | <../../images/app2_webapp_c.svg><a href="../../images/app2_webapp_c.svg">test</a>
 
 ## Deployments
 
