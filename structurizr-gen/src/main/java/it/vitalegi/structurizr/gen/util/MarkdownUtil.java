@@ -9,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 public class MarkdownUtil implements Closeable {
-
     protected OutputStreamWriter os;
 
     public static MarkdownUtil init(Path filePath) {
@@ -53,9 +52,13 @@ public class MarkdownUtil implements Closeable {
         return this;
     }
 
-    public MarkdownUtil link(String url) {
-        write("<" + url + ">");
-        write("<a href=\""+url+"\">test</a>");
+    public MarkdownUtil link(String name, String url) {
+        write("<a href=\"" + url + "\">" + name + "</a>");
+        return this;
+    }
+
+    public MarkdownUtil mdLink(String name, String url) {
+        write("[" + name + "](" + url + ")");
         return this;
     }
 
@@ -71,6 +74,33 @@ public class MarkdownUtil implements Closeable {
 
     public MarkdownUtil println() {
         write("\n");
+        return this;
+    }
+
+    public MarkdownUtil td(Object... values) {
+        print("|");
+        for (var value : values) {
+            String printable = "";
+            if (value != null) {
+                printable = value.toString();
+            }
+            print(" " + printable + " |");
+        }
+        println();
+        return this;
+    }
+
+    public MarkdownUtil th(String... headers) {
+        print("|");
+        for (var header : headers) {
+            print(" " + header + " |");
+        }
+        println();
+        print("|");
+        for (var i = 0; i < headers.length; i++) {
+            print(" --- |");
+        }
+        println();
         return this;
     }
 

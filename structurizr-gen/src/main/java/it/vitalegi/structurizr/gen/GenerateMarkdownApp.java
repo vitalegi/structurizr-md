@@ -43,12 +43,30 @@ public class GenerateMarkdownApp {
         var ctx = new DslContext();
         ctx.setImages(app.createImages(mainDir, workspace));
 
+        app.createLandscapePage(mainDir, workspace, ctx);
         app.softwareSystemPages(mainDir, workspace, ctx);
     }
 
     public List<DiagramRef> createImages(Path mainDir, Workspace workspace) {
         return workspace.getViews().getViews().stream().flatMap(v -> createImages(mainDir, workspace, v))
                         .collect(Collectors.toList());
+    }
+
+    public void createLandscapePage(Path mainDir, Workspace ws, DslContext ctx) {
+        FileUtil.createDirs(mainDir);
+        var filePath = mainDir.resolve("README.md");
+        log.info("Create landscape page {}", filePath);
+        try (var md = MarkdownUtil.init(filePath)) {
+            md.h1("Landscape");
+            ws.getViews().getSystemLandscapeViews().forEach(v -> {
+                addImages(md, v, ctx);
+                md.println();
+            });
+            landscapeSystemTOC(md, ws, ctx);
+            landscapeSystemConnectivity(md, ws, ctx);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<SoftwareSystemPage> softwareSystemPages(Path mainDir, Workspace workspace, DslContext ctx) {
@@ -110,11 +128,11 @@ public class GenerateMarkdownApp {
     }
 
     protected void addLink(MarkdownUtil md, DiagramRef dr) {
-        md.link(PathUtil.toRelativeUrl(dr.getPath()));
+        md.mdLink(dr.getType(), PathUtil.toRelativeUrl(dr.getPath()));
     }
 
     protected Stream<DiagramRef> createImages(Path mainDir, Workspace workspace, View view) {
-        var relativePathImages = Path.of("..", "..", "images");
+        var relativePathImages = Path.of("images");
         var tmp1 = new DiagramRef(view.getKey(), relativePathImages.resolve(view.getKey() + ".png"), "png");
         var tmp2 = new DiagramRef(view.getKey(), relativePathImages.resolve(view.getKey() + ".svg"), "svg");
         return Stream.of(tmp1, tmp2);
@@ -181,13 +199,61 @@ public class GenerateMarkdownApp {
         return ctx.getImages().stream().filter(dr -> accept(dr, view)).collect(Collectors.toList());
     }
 
+    protected void landscapeSystemConnectivity(MarkdownUtil md, Workspace ws, DslContext ctx) {
+        md.h2("Stats");
+        md.h3("Software Systems");
+        md.th("Software System", "# Containers", "# Components");
+        ws.getModel().getSoftwareSystems().forEach(ss -> {
+            md.td(ss.getName(), ss.getContainers().size(), ss.getContainers().stream()
+                                                             .flatMap(c -> c.getComponents().stream()).count());
+        });
+        md.println();
+        md.h3("Containers");
+        md.th("Software System", "Container", "# Components");
+        ws.getModel().getSoftwareSystems().forEach(ss -> {
+            ss.getContainers().forEach(c -> md.td(ss.getName(), c.getName(), c.getComponents().stream().count()));
+        });
+        md.println();
+        md.h2("Relations");
+        md.th("Software System", "#");
+        ws.getModel().getSoftwareSystems().forEach(ss -> {
+            md.td(ss.getName(), "", "", ss.getRelationships().size());
+        });
+        md.println();
+        md.th("Software System", "Container", "#");
+        ws.getModel().getSoftwareSystems().forEach(ss -> {
+            ss.getContainers().forEach(container -> {
+                md.td(ss.getName(), container.getName(), "", container.getRelationships().size());
+            });
+        });
+        md.println();
+        md.th("Software System", "Container", "Component", "#");
+        ws.getModel().getSoftwareSystems().forEach(ss -> {
+            ss.getContainers().forEach(container -> {
+                container.getComponents().forEach(component -> {
+                    md.td(ss.getName(), container.getName(), component.getName(), component.getRelationships().size());
+                });
+            });
+        });
+        md.println();
+    }
+
+    protected void landscapeSystemTOC(MarkdownUtil md, Workspace ws, DslContext ctx) {
+        md.h2("Software Systems");
+        ws.getModel().getSoftwareSystems().stream().forEach(ss -> {
+            md.print(" - ");
+            var url = ss.getName() + ".md";
+            md.mdLink(ss.getName(), url.replace(" ", "%20"));
+            md.println();
+        });
+        md.println();
+    }
+
     protected SoftwareSystemPage softwareSystemPage(Path mainDir, Workspace workspace, SoftwareSystem ss,
                                                     DslContext ctx) {
         var page = new SoftwareSystemPage();
-
-        var softwareSystemsDir = mainDir.resolve("software-systems");
-        FileUtil.createDirs(softwareSystemsDir);
-        var filePath = softwareSystemsDir.resolve(ss.getName() + ".md");
+        FileUtil.createDirs(mainDir);
+        var filePath = mainDir.resolve(ss.getName() + ".md");
         page.setKey(ss.getId());
         page.setFilePath(filePath);
         log.info("Found SoftwareSystem: id={}, name={}. File={}", ss.getId(), ss.getName(), filePath);
