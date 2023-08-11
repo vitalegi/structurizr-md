@@ -26,7 +26,7 @@ public class GenerateMarkdownApp {
 
     private static final Logger log = LoggerFactory.getLogger(GenerateMarkdownApp.class);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         if (args.length < 2) {
             throw new IllegalArgumentException("Mandatory arguments: dsl, outputDir");
         }
