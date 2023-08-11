@@ -122,7 +122,7 @@ public class LandscapePageService {
         md.println();
         md.h2("Relations");
         md.th("Software System", "#");
-        getSortedSoftwareSystems(ws).forEachOrdered(ss -> md.td(ss.getName(), "", ss.getRelationships().size()));
+        getSortedSoftwareSystems(ws).forEachOrdered(ss -> md.td(ss.getName(), ss.getRelationships().size()));
         md.println();
         md.th("Software System", "Container", "#");
         getSortedSoftwareSystems(ws).forEachOrdered(ss -> //
