@@ -31,15 +31,15 @@
 
 | Software System | # |
 | --- | --- |
-| App 2 |  |  | 5 |
-| Spring PetClinic |  |  | 0 |
+| App 2 |  | 5 |
+| Spring PetClinic |  | 0 |
 
 | Software System | Container | # |
 | --- | --- | --- |
-| App 2 | Database |  | 0 |
-| App 2 | Web Application |  | 5 |
-| Spring PetClinic | Database |  | 0 |
-| Spring PetClinic | Web Application |  | 1 |
+| App 2 | Database | 0 |
+| App 2 | Web Application | 5 |
+| Spring PetClinic | Database | 0 |
+| Spring PetClinic | Web Application | 1 |
 
 | Software System | Container | Component | # |
 | --- | --- | --- | --- |
