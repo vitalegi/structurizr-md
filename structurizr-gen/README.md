@@ -21,12 +21,15 @@ mvn clean package
 ### Generate images
 
 ```
-java -cp target/structurizr-gen-jar-with-dependencies.jar it.vitalegi.structurizr.gen.Main --dsl sample.dsl --o RAW --out-dir-png sample/images/ --out-dir-svg sample/images/
+java -cp target/structurizr-gen-jar-with-dependencies.jar it.vitalegi.structurizr.gen.GenerateImagesApp sample.dsl sample/images/
 ```
 
 ```
-mvn clean compile exec:java "-Dexec.args=--dsl sample.dsl --o RAW --out-dir-png sample/images/ --out-dir-svg sample/images/" "-Dexec.mainClass=it.vitalegi.structurizr.gen.Main"
+mvn clean compile exec:java "-Dexec.args=sample.dsl sample/images/" "-Dexec.mainClass=it.vitalegi.structurizr.gen.GenerateImagesApp"
 ```
+
+Both commands will read configuration from file `sample.dsl` and export the images in `sample/images` folder. Both
+values can be replaced with absolute/relative paths.
 
 ### Generate BitBucket pages
 

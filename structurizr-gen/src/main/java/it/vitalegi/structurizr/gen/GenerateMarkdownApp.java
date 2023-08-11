@@ -8,11 +8,11 @@ import com.structurizr.view.View;
 import it.vitalegi.structurizr.gen.model.DiagramRef;
 import it.vitalegi.structurizr.gen.model.DslContext;
 import it.vitalegi.structurizr.gen.model.SoftwareSystemPage;
-import it.vitalegi.structurizr.gen.service.WorkspaceFactory;
 import it.vitalegi.structurizr.gen.util.FileUtil;
 import it.vitalegi.structurizr.gen.util.MarkdownUtil;
 import it.vitalegi.structurizr.gen.util.PathUtil;
 import it.vitalegi.structurizr.gen.util.StringUtil;
+import it.vitalegi.structurizr.gen.util.StructurizrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,19 +24,19 @@ import java.util.stream.Stream;
 
 public class GenerateMarkdownApp {
 
-    private static final Logger log = LoggerFactory.getLogger(Main.class);
+    private static final Logger log = LoggerFactory.getLogger(GenerateMarkdownApp.class);
 
     public static void main(String[] args) throws Exception {
         if (args.length < 2) {
             throw new IllegalArgumentException("Mandatory arguments: dsl, outputDir");
         }
-        String dsl = args[0];
+        var dsl = Path.of(args[0]);
         var mainDir = Path.of(args[1]);
 
         log.info("DSL:        {}", dsl);
         log.info("Output dir: {}", mainDir);
 
-        var workspace = new WorkspaceFactory().create(dsl);
+        var workspace = StructurizrUtil.getWorkspace(dsl);
 
         FileUtil.createDirs(mainDir);
         var app = new GenerateMarkdownApp();
