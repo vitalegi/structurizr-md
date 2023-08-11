@@ -18,16 +18,16 @@
 
 ## Component Diagrams
 
-### Spring PetClinic - Web Application - Components
-
-![app1_webapp_c](images/app1_webapp_c.png)
-
-[png](images/app1_webapp_c.png) | [svg](images/app1_webapp_c.svg)
 ### Spring PetClinic - Database - Components
 
 ![app1_database_c](images/app1_database_c.png)
 
 [png](images/app1_database_c.png) | [svg](images/app1_database_c.svg)
+### Spring PetClinic - Web Application - Components
+
+![app1_webapp_c](images/app1_webapp_c.png)
+
+[png](images/app1_webapp_c.png) | [svg](images/app1_webapp_c.svg)
 
 ## Deployments
 
