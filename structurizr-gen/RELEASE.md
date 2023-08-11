@@ -3,7 +3,9 @@
 ## Create release files
 
 ```
+cd .\structurizr-gen\
 mvn versions:set "-DgenerateBackupPoms=false" "-DnewVersion=0.0.3"
+cd ..
 git clone --depth 1 -b main git@github.com:vitalegi/c4-model-arch.git
 cd .\c4-model-arch\structurizr-gen\
 mvn clean package
