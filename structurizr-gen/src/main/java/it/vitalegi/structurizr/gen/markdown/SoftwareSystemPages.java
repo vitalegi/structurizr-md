@@ -17,13 +17,14 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SoftwareSystemPages {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     public List<SoftwareSystemPage> softwareSystemPages(Path mainDir, Workspace workspace, DslContext ctx) {
         return workspace.getModel().getSoftwareSystems().stream()
@@ -86,20 +87,8 @@ public class SoftwareSystemPages {
         md.mdLink(dr.getType(), PathUtil.toRelativeUrl(dr.getPath()));
     }
 
-    protected List<DiagramRef> createImages(Path mainDir, Workspace workspace) {
-        return workspace.getViews().getViews().stream().flatMap(v -> createImages(mainDir, workspace, v))
-                        .collect(Collectors.toList());
-    }
-
-    protected Stream<DiagramRef> createImages(Path mainDir, Workspace workspace, View view) {
-        var relativePathImages = Path.of("images");
-        var tmp1 = new DiagramRef(view.getKey(), relativePathImages.resolve(view.getKey() + ".png"), "png");
-        var tmp2 = new DiagramRef(view.getKey(), relativePathImages.resolve(view.getKey() + ".svg"), "svg");
-        return Stream.of(tmp1, tmp2);
-    }
-
     protected void createSection(MarkdownUtil md, Stream<? extends View> views, DslContext ctx) {
-        views.forEach(v -> createSection(md, v, ctx));
+        sort(views).forEach(v -> createSection(md, v, ctx));
     }
 
     protected void createSection(MarkdownUtil md, View view, DslContext ctx) {
@@ -169,5 +158,9 @@ public class SoftwareSystemPages {
         log.info("Found SoftwareSystem: id={}, name={}. File={}", ss.getId(), ss.getName(), filePath);
         createSoftwareSystemPage(filePath, workspace, ss, ctx);
         return page;
+    }
+
+    protected <E extends View> Stream<E> sort(Stream<E> views) {
+        return views.sorted(Comparator.comparing(View::getName).thenComparing(View::getKey));
     }
 }
