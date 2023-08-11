@@ -6,7 +6,7 @@
 
     <groupId>it.vitalegi</groupId>
     <artifactId>structurizr-gen</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>jar</packaging>
 
     <properties>
