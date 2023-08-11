@@ -19,16 +19,16 @@ description: System context description...
 
 ## Component Diagrams
 
-### App 2 - Web Application - Components
-
-![app2_webapp_c](images/app2_webapp_c.png)
-
-[png](images/app2_webapp_c.png) | [svg](images/app2_webapp_c.svg)
 ### App 2 - Database - Components
 
 ![app2_database_c](images/app2_database_c.png)
 
 [png](images/app2_database_c.png) | [svg](images/app2_database_c.svg)
+### App 2 - Web Application - Components
+
+![app2_webapp_c](images/app2_webapp_c.png)
+
+[png](images/app2_webapp_c.png) | [svg](images/app2_webapp_c.svg)
 
 ## Deployments
 
