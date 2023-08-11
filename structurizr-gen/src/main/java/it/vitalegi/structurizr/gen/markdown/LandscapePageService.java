@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 public class LandscapePageService {
 
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
 
     public void createLandscapePage(Path mainDir, Workspace ws, DslContext ctx) {
@@ -80,7 +80,7 @@ public class LandscapePageService {
             }
             ;
         } else {
-            diagramRefs.stream().forEach(dr -> addImage(md, dr));
+            diagramRefs.forEach(dr -> addImage(md, dr));
         }
         md.println();
     }
@@ -109,39 +109,35 @@ public class LandscapePageService {
         md.h2("Stats");
         md.h3("Software Systems");
         md.th("Software System", "# Containers", "# Components");
-        getSortedSoftwareSystems(ws).forEachOrdered(ss -> {
-            md.td(ss.getName(), ss.getContainers().size(), ss.getContainers().stream()
-                                                             .flatMap(c -> c.getComponents().stream()).count());
-        });
+        getSortedSoftwareSystems(ws).forEachOrdered(ss -> md.td(ss.getName(), ss.getContainers()
+                                                                                .size(), ss.getContainers().stream()
+                                                                                           .flatMap(c -> c.getComponents()
+                                                                                                          .stream())
+                                                                                           .count()));
         md.println();
         md.h3("Containers");
         md.th("Software System", "Container", "# Components");
-        getSortedSoftwareSystems(ws).forEachOrdered(ss -> {
-            getSortedContainers(ss).forEachOrdered(c -> md.td(ss.getName(), c.getName(), c.getComponents().stream()
-                                                                                          .count()));
-        });
+        getSortedSoftwareSystems(ws).forEachOrdered(ss -> getSortedContainers(ss).forEachOrdered(c -> md.td(ss.getName(), c.getName(), (long) c.getComponents()
+                                                                                                                                               .size())));
         md.println();
         md.h2("Relations");
         md.th("Software System", "#");
-        getSortedSoftwareSystems(ws).forEachOrdered(ss -> {
-            md.td(ss.getName(), "", "", ss.getRelationships().size());
-        });
+        getSortedSoftwareSystems(ws).forEachOrdered(ss -> md.td(ss.getName(), "", ss.getRelationships().size()));
         md.println();
         md.th("Software System", "Container", "#");
-        getSortedSoftwareSystems(ws).forEachOrdered(ss -> {
-            getSortedContainers(ss).forEachOrdered(container -> {
-                md.td(ss.getName(), container.getName(), "", container.getRelationships().size());
-            });
-        });
+        getSortedSoftwareSystems(ws).forEachOrdered(ss -> //
+                getSortedContainers(ss) //
+                                        .forEachOrdered(container -> //
+                                                md.td(ss.getName(), container.getName(), container.getRelationships()
+                                                                                                  .size())));
         md.println();
         md.th("Software System", "Container", "Component", "#");
-        getSortedSoftwareSystems(ws).forEachOrdered(ss -> {
-            getSortedContainers(ss).forEachOrdered(container -> {
-                getSortedComponents(container).forEachOrdered(component -> {
-                    md.td(ss.getName(), container.getName(), component.getName(), component.getRelationships().size());
-                });
-            });
-        });
+        getSortedSoftwareSystems(ws).forEachOrdered(ss -> //
+                getSortedContainers(ss).forEachOrdered(container -> //
+                        getSortedComponents(container).forEachOrdered(component -> //
+                                md.td(ss.getName(), container.getName(), component.getName(),
+                                        component.getRelationships()
+                                                                                                       .size()))));
         md.println();
     }
 
