@@ -6,7 +6,7 @@ With this in mind, [Structurizr](https://structurizr.com/)'s approach of diagram
 
 What's found to be missing?
 
-- Fast export of all diagrams
+- Easy and fast export of all diagrams
 - Generation of additional documentation in a portable format (markdown, in our case)
 - Auto-generation of containers/components
 
