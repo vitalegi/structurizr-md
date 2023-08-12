@@ -1,13 +1,13 @@
 # Landscape
 
-![landscape](images/landscape.png)
+![landscape](./images/landscape.png)
 
-[png](images/landscape.png) | [svg](images/landscape.svg)
+[png](./images/landscape.png) | [svg](./images/landscape.svg)
 
 ## Software Systems
 
- - [App 2](App%202.md)
- - [Spring PetClinic](Spring%20PetClinic.md)
+ - [App 2](software-systems/App%202/README.md)
+ - [Spring PetClinic](software-systems/Spring%20PetClinic/README.md)
 
 ## Stats
 
@@ -31,8 +31,8 @@
 
 | Software System | # |
 | --- | --- |
-| App 2 |  | 5 |
-| Spring PetClinic |  | 0 |
+| App 2 | 5 |
+| Spring PetClinic | 0 |
 
 | Software System | Container | # |
 | --- | --- | --- |
