@@ -1,5 +1,8 @@
 package it.vitalegi.structurizr.gen.util;
 
+import com.structurizr.view.View;
+import it.vitalegi.structurizr.gen.model.MdContext;
+
 import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -23,6 +26,41 @@ public class MarkdownUtil implements Closeable {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public MarkdownUtil addImage(String key, Path path) {
+        image(key, UrlUtil.toUrl(path));
+        println();
+        println();
+        return this;
+    }
+
+    public MarkdownUtil addLink(String format, Path path) {
+        mdLink(format, UrlUtil.toUrl(path));
+        return this;
+    }
+
+    public MarkdownUtil addViewImages(View view, MdContext ctx, Path relativePath) {
+        String key = view.getKey();
+        var formats = ctx.getImageFormats(key);
+        if (formats.isEmpty()) {
+            throw new RuntimeException("no image for view " + key + " found");
+        }
+
+        var pngPath = ctx.getImagePath(key, "png");
+        if (pngPath == null) {
+            throw new RuntimeException("png image for " + key + " view not found");
+        }
+        addImage(key, relativePath.resolve(pngPath));
+        for (var i = 0; i < formats.size(); i++) {
+            var format = formats.get(i);
+            if (i > 0) {
+                print(" | ");
+            }
+            addLink(formats.get(i), relativePath.resolve(ctx.getImagePath(key, format)));
+        }
+        println();
+        return this;
     }
 
     @Override

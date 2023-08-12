@@ -1,34 +1,31 @@
 package it.vitalegi.structurizr.gen.markdown;
 
-import com.structurizr.Workspace;
 import com.structurizr.model.SoftwareSystem;
 import com.structurizr.view.DeploymentView;
 import com.structurizr.view.StaticView;
 import com.structurizr.view.View;
-import it.vitalegi.structurizr.gen.model.DiagramRef;
-import it.vitalegi.structurizr.gen.model.DslContext;
-import it.vitalegi.structurizr.gen.model.SoftwareSystemPage;
-import it.vitalegi.structurizr.gen.util.FileUtil;
+import it.vitalegi.structurizr.gen.model.MdContext;
 import it.vitalegi.structurizr.gen.util.MarkdownUtil;
-import it.vitalegi.structurizr.gen.util.PathUtil;
 import it.vitalegi.structurizr.gen.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SoftwareSystemPages {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    public List<SoftwareSystemPage> softwareSystemPages(Path mainDir, Workspace workspace, DslContext ctx) {
-        return workspace.getModel().getSoftwareSystems().stream()
-                        .map(ss -> softwareSystemPage(mainDir, workspace, ss, ctx)).collect(Collectors.toList());
+    protected MdContext ctx;
+
+    public SoftwareSystemPages(MdContext ctx) {
+        this.ctx = ctx;
+    }
+
+    public void softwareSystemPages() {
+        ctx.getSoftwareSystemsSorted().forEach(this::softwareSystemPage);
     }
 
     protected boolean accept(StaticView view, SoftwareSystem system) {
@@ -39,99 +36,55 @@ public class SoftwareSystemPages {
         return view.getSoftwareSystemId().equals(system.getId());
     }
 
-    protected boolean accept(DiagramRef diagramRef, View view) {
-        if (diagramRef == null || diagramRef.getKey() == null) {
-            return false;
-        }
-        if (view == null) {
-            return false;
-        }
-        return diagramRef.getKey().equals(view.getKey());
-    }
-
     protected void addDescription(MarkdownUtil md, View view) {
         if (StringUtil.isNotNullOrEmpty(view.getDescription())) {
             md.println("description: " + view.getDescription());
         }
     }
 
-    protected void addImage(MarkdownUtil md, DiagramRef dr) {
-        md.image(dr.getKey(), PathUtil.toRelativeUrl(dr.getPath()));
-        md.println();
-        md.println();
+
+    protected void createSection(MarkdownUtil md, Stream<? extends View> views) {
+        views.forEach(v -> createSection(md, v));
     }
 
-    protected void addImages(MarkdownUtil md, View view, DslContext ctx) {
-        var diagramRefs = getViews(ctx, view);
-        if (diagramRefs.isEmpty()) {
-            return;
-        }
-        var png = diagramRefs.stream().filter(dr -> dr.getType().equals("png")).findFirst().orElse(null);
-
-        if (png != null) {
-            addImage(md, png);
-            for (var i = 0; i < diagramRefs.size(); i++) {
-                if (i > 0) {
-                    md.print(" | ");
-                }
-                addLink(md, diagramRefs.get(i));
-            }
-            ;
-        } else {
-            diagramRefs.stream().forEach(dr -> addImage(md, dr));
-        }
-        md.println();
-    }
-
-    protected void addLink(MarkdownUtil md, DiagramRef dr) {
-        md.mdLink(dr.getType(), PathUtil.toRelativeUrl(dr.getPath()));
-    }
-
-    protected void createSection(MarkdownUtil md, Stream<? extends View> views, DslContext ctx) {
-        sort(views).forEach(v -> createSection(md, v, ctx));
-    }
-
-    protected void createSection(MarkdownUtil md, View view, DslContext ctx) {
+    protected void createSection(MarkdownUtil md, View view) {
         md.h3(getName(view));
         addDescription(md, view);
-        addImages(md, view, ctx);
+        md.addViewImages(view, ctx, ctx.getSoftwareSystemPathToRoot());
     }
 
-    protected void createSectionContainers(MarkdownUtil md, Workspace workspace, SoftwareSystem ss, DslContext ctx) {
+    protected void createSectionContainers(MarkdownUtil md, SoftwareSystem ss) {
         md.h2("Containers");
-        createSection(md, workspace.getViews().getContainerViews().stream().filter(v -> accept(v, ss)), ctx);
+        createSection(md, ctx.getContainerViewsSorted().filter(v -> accept(v, ss)));
         md.println();
     }
 
-    protected void createSectionDeployments(MarkdownUtil md, Workspace workspace, SoftwareSystem ss, DslContext ctx) {
+    protected void createSectionDeployments(MarkdownUtil md, SoftwareSystem ss) {
         md.h2("Deployments");
-        createSection(md, workspace.getViews().getDeploymentViews().stream().filter(v -> accept(v, ss)), ctx);
+        createSection(md, ctx.getDeploymentViewsSorted().filter(v -> accept(v, ss)));
         md.println();
     }
 
-    protected void createSectionSystemComponents(MarkdownUtil md, Workspace workspace, SoftwareSystem ss,
-                                                 DslContext ctx) {
+    protected void createSectionSystemComponents(MarkdownUtil md, SoftwareSystem ss) {
         md.h2("Component Diagrams");
-        createSection(md, workspace.getViews().getComponentViews().stream().filter(v -> accept(v, ss)), ctx);
+        createSection(md, ctx.getComponentViewsSorted().filter(v -> accept(v, ss)));
         md.println();
     }
 
-    protected void createSectionSystemContexts(MarkdownUtil md, Workspace workspace, SoftwareSystem ss,
-                                               DslContext ctx) {
+    protected void createSectionSystemContexts(MarkdownUtil md, SoftwareSystem ss) {
         md.h2("System Contexts");
-        createSection(md, workspace.getViews().getSystemContextViews().stream().filter(v -> accept(v, ss)), ctx);
+        createSection(md, ctx.getSystemContextViewsSorted().filter(v -> accept(v, ss)));
         md.println();
     }
 
-    protected void createSoftwareSystemPage(Path filePath, Workspace workspace, SoftwareSystem ss, DslContext ctx) {
+    protected void createSoftwareSystemPage(Path filePath, SoftwareSystem ss) {
         try (var md = MarkdownUtil.init(filePath)) {
             md.h1(ss.getName());
-            //markdown.h2("TOC");
 
-            createSectionSystemContexts(md, workspace, ss, ctx);
-            createSectionContainers(md, workspace, ss, ctx);
-            createSectionSystemComponents(md, workspace, ss, ctx);
-            createSectionDeployments(md, workspace, ss, ctx);
+            createSectionSystemContexts(md, ss);
+            createSectionContainers(md, ss);
+            createSectionSystemComponents(md, ss);
+            createSectionDeployments(md, ss);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -144,23 +97,10 @@ public class SoftwareSystemPages {
         return view.getName();
     }
 
-    protected List<DiagramRef> getViews(DslContext ctx, View view) {
-        return ctx.getImages().stream().filter(dr -> accept(dr, view)).collect(Collectors.toList());
-    }
-
-    protected SoftwareSystemPage softwareSystemPage(Path mainDir, Workspace workspace, SoftwareSystem ss,
-                                                    DslContext ctx) {
-        var page = new SoftwareSystemPage();
-        FileUtil.createDirs(mainDir);
-        var filePath = mainDir.resolve(ss.getName() + ".md");
-        page.setKey(ss.getId());
-        page.setFilePath(filePath);
+    protected void softwareSystemPage(SoftwareSystem ss) {
+        var filePath = ctx.getSoftwareSystemPath(ss);
         log.info("Found SoftwareSystem: id={}, name={}. File={}", ss.getId(), ss.getName(), filePath);
-        createSoftwareSystemPage(filePath, workspace, ss, ctx);
-        return page;
+        createSoftwareSystemPage(filePath, ss);
     }
 
-    protected <E extends View> Stream<E> sort(Stream<E> views) {
-        return views.sorted(Comparator.comparing(View::getName).thenComparing(View::getKey));
-    }
 }
