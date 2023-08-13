@@ -9,6 +9,13 @@ description: System Context of Spring PetClinic
 
 [png](../../images/system_context%20Spring%20PetClinic.png) | [svg](../../images/system_context%20Spring%20PetClinic.svg)
 
+### Spring PetClinic - System Context
+
+description: System Context of Spring PetClinic
+![system_context Spring PetClinic](../../images/system_context%20Spring%20PetClinic.png)
+
+[png](../../images/system_context%20Spring%20PetClinic.png) | [svg](../../images/system_context%20Spring%20PetClinic.svg)
+
 ## Containers
 
 ### Spring PetClinic - Containers
@@ -18,7 +25,7 @@ description: Container view of Spring PetClinic
 
 [png](../../images/container%20Spring%20PetClinic.png) | [svg](../../images/container%20Spring%20PetClinic.svg)
 
-## Component Diagrams
+## Components
 
 ### Spring PetClinic - Web Application - Components
 
