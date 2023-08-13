@@ -19,4 +19,15 @@ public class StringUtil {
         return !isNullOrEmpty(str);
     }
 
+    public static String getFirstNotNullOrEmpty(String... strs) {
+        if (strs == null) {
+            throw new IllegalArgumentException();
+        }
+        for (var i = 0; i < strs.length; i++) {
+            if (isNotNullOrEmpty(strs[i])) {
+                return strs[i];
+            }
+        }
+        return null;
+    }
 }

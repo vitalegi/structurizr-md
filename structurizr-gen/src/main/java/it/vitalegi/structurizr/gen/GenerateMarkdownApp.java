@@ -5,6 +5,8 @@ import com.structurizr.view.View;
 import it.vitalegi.structurizr.gen.markdown.LandscapePageService;
 import it.vitalegi.structurizr.gen.markdown.SoftwareSystemPage;
 import it.vitalegi.structurizr.gen.model.MdContext;
+import it.vitalegi.structurizr.gen.service.C4PlantUmlExporter;
+import it.vitalegi.structurizr.gen.service.ViewGenerator;
 import it.vitalegi.structurizr.gen.util.FileUtil;
 import it.vitalegi.structurizr.gen.util.StructurizrUtil;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ public class GenerateMarkdownApp {
 
     public GenerateMarkdownApp(Path dsl, Path mainDir) {
         var ws = StructurizrUtil.getWorkspace(dsl);
+        new ViewGenerator(ws).initDefaultViews();
         ctx = new MdContext(ws, mainDir);
     }
 
@@ -34,7 +37,13 @@ public class GenerateMarkdownApp {
         log.info("Output dir: {}", mainDir);
 
         FileUtil.createDirs(mainDir);
-        new GenerateMarkdownApp(dsl, mainDir).createMd();
+        var app = new GenerateMarkdownApp(dsl, mainDir);
+        app.createImages();
+        app.createMd();
+    }
+
+    public void createImages() {
+        new C4PlantUmlExporter().exportDiagramsC4Plant(ctx.getWorkspace(), ctx.getImagesRoot());
     }
 
     public void createMd() {

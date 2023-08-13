@@ -68,6 +68,10 @@ public class MdContext {
         return assetContext.getPath(key, format);
     }
 
+    public Path getImagesRoot() {
+        return mainDir.resolve(IMAGES_ROOT);
+    }
+
     public Path getMainDir() {
         return mainDir;
     }
