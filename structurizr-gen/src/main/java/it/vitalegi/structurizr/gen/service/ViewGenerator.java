@@ -29,19 +29,6 @@ public class ViewGenerator {
         initViewsComponents();
     }
 
-    protected String createViewId(String prefix, Container c) {
-        var ss = c.getSoftwareSystem();
-        var name = getFirstNotNullOrEmpty(ss.getName(), ss.getId()) + " " + getFirstNotNullOrEmpty(c.getName(),
-                c.getId());
-        return prefix + " " + StructurizrUtil.sanitizeName(name);
-    }
-
-    protected String createViewId(String prefix, SoftwareSystem softwareSystem) {
-        var name = getFirstNotNullOrEmpty(softwareSystem.getName(), softwareSystem.getId());
-        return prefix + " " + StructurizrUtil.sanitizeName(name);
-    }
-
-
     protected void initViewLandscape() {
         if (ws.getViews().getSystemLandscapeViews().isEmpty()) {
             log.info("Create landscape view");
@@ -50,6 +37,52 @@ public class ViewGenerator {
             view.enableAutomaticLayout();
             view.setEnterpriseBoundaryVisible(true);
         }
+    }
+
+    protected void initViewsSystemContext() {
+        ws.getModel().getSoftwareSystems().forEach(ss -> {
+            if (ws.getViews().getSystemContextViews().stream().noneMatch(s -> match(s, ss))) {
+                log.info("Create system context view for {} ({})", ss.getName(), ss.getId());
+                var view = ws.getViews()
+                             .createSystemContextView(ss, createViewId("system_context", ss),
+                                     "System Context of " + ss.getName());
+                view.addDefaultElements();
+                view.enableAutomaticLayout();
+                view.setEnterpriseBoundaryVisible(true);
+            }
+        });
+    }
+
+    protected void initViewsContainers() {
+        ws.getModel().getSoftwareSystems().forEach(ss -> {
+            if (ws.getViews().getContainerViews().stream().noneMatch(v -> match(v, ss))) {
+                log.info("Create container view for {} ({})", ss.getName(), ss.getId());
+                var view = ws.getViews()
+                             .createContainerView(ss, createViewId("container", ss),
+                                     "Container view of " + ss.getName());
+                view.addDefaultElements();
+                view.enableAutomaticLayout();
+                view.setExternalSoftwareSystemBoundariesVisible(true);
+            }
+        });
+    }
+
+    protected void initViewsComponents() {
+        ws.getModel().getSoftwareSystems().stream().flatMap(s -> s.getContainers().stream())
+          .forEach(this::initViewsComponents);
+    }
+
+    protected boolean match(SystemContextView view, SoftwareSystem softwareSystem) {
+        return view.getSoftwareSystemId().equals(softwareSystem.getId());
+    }
+
+    protected String createViewId(String prefix, SoftwareSystem softwareSystem) {
+        var name = getFirstNotNullOrEmpty(softwareSystem.getName(), softwareSystem.getId());
+        return prefix + " " + StructurizrUtil.sanitizeName(name);
+    }
+
+    protected boolean match(ContainerView view, SoftwareSystem softwareSystem) {
+        return view.getSoftwareSystemId().equals(softwareSystem.getId());
     }
 
     protected void initViewsComponents(Container container) {
@@ -69,49 +102,14 @@ public class ViewGenerator {
         }
     }
 
-
-    protected void initViewsComponents() {
-        ws.getModel().getSoftwareSystems().stream().flatMap(s -> s.getContainers().stream())
-          .forEach(this::initViewsComponents);
-    }
-
-    protected void initViewsContainers() {
-        ws.getModel().getSoftwareSystems().forEach(ss -> {
-            if (ws.getViews().getContainerViews().stream().noneMatch(v -> match(v, ss))) {
-                log.info("Create container view for {} ({})", ss.getName(), ss.getId());
-                var view = ws.getViews()
-                             .createContainerView(ss, createViewId("container", ss),
-                                     "Container view of " + ss.getName());
-                view.addDefaultElements();
-                view.enableAutomaticLayout();
-                view.setExternalSoftwareSystemBoundariesVisible(true);
-            }
-        });
-    }
-
-    protected void initViewsSystemContext() {
-        ws.getModel().getSoftwareSystems().forEach(ss -> {
-            if (ws.getViews().getSystemContextViews().stream().noneMatch(s -> match(s, ss))) {
-                log.info("Create system context view for {} ({})", ss.getName(), ss.getId());
-                var view = ws.getViews()
-                             .createSystemContextView(ss, createViewId("system_context", ss),
-                                     "System Context of " + ss.getName());
-                view.addDefaultElements();
-                view.enableAutomaticLayout();
-                view.setEnterpriseBoundaryVisible(true);
-            }
-        });
-    }
-
-    protected boolean match(ContainerView view, SoftwareSystem softwareSystem) {
-        return view.getSoftwareSystemId().equals(softwareSystem.getId());
-    }
-
     protected boolean match(ComponentView view, Container container) {
         return view.getContainerId().equals(container.getId());
     }
 
-    protected boolean match(SystemContextView view, SoftwareSystem softwareSystem) {
-        return view.getSoftwareSystemId().equals(softwareSystem.getId());
+    protected String createViewId(String prefix, Container c) {
+        var ss = c.getSoftwareSystem();
+        var name = getFirstNotNullOrEmpty(ss.getName(), ss.getId()) + " " + getFirstNotNullOrEmpty(c.getName(),
+                c.getId());
+        return prefix + " " + StructurizrUtil.sanitizeName(name);
     }
 }

@@ -5,8 +5,8 @@ import java.util.List;
 
 public class MarkdownTable {
     MarkdownUtil md;
-    private String[] headers;
-    private List<Object[]> values;
+    private final String[] headers;
+    private final List<Object[]> values;
 
     public MarkdownTable(MarkdownUtil md, String... headers) {
         this.md = md;
@@ -28,19 +28,6 @@ public class MarkdownTable {
         return md;
     }
 
-
-    private void td(Object... values) {
-        md.print("|");
-        for (var value : values) {
-            String printable = "";
-            if (value != null) {
-                printable = value.toString();
-            }
-            md.print(" " + printable + " |");
-        }
-        md.println();
-    }
-
     private void th(String[] headers) {
         md.print("|");
         for (var header : headers) {
@@ -50,6 +37,18 @@ public class MarkdownTable {
         md.print("|");
         for (var i = 0; i < headers.length; i++) {
             md.print(" --- |");
+        }
+        md.println();
+    }
+
+    private void td(Object... values) {
+        md.print("|");
+        for (var value : values) {
+            String printable = "";
+            if (value != null) {
+                printable = value.toString();
+            }
+            md.print(" " + printable + " |");
         }
         md.println();
     }

@@ -38,6 +38,14 @@ public class C4PlantUmlExporter {
         saveAsPng(outDir, diagram);
     }
 
+    protected File saveAsSvg(Path outDir, Diagram diagram) {
+        return saveAs(outDir, diagram.getKey() + ".svg", diagram.getDefinition(), FileFormat.SVG);
+    }
+
+    protected File saveAsPng(Path outDir, Diagram diagram) {
+        return saveAs(outDir, diagram.getKey() + ".png", diagram.getDefinition(), FileFormat.PNG);
+    }
+
     protected File saveAs(Path outDir, String fileName, String definition, FileFormat format) {
         SourceStringReader reader = new SourceStringReader(definition);
         FileUtil.createDirs(outDir);
@@ -49,13 +57,5 @@ public class C4PlantUmlExporter {
             throw new RuntimeException(e);
         }
         return out;
-    }
-
-    protected File saveAsPng(Path outDir, Diagram diagram) {
-        return saveAs(outDir, diagram.getKey() + ".png", diagram.getDefinition(), FileFormat.PNG);
-    }
-
-    protected File saveAsSvg(Path outDir, Diagram diagram) {
-        return saveAs(outDir, diagram.getKey() + ".svg", diagram.getDefinition(), FileFormat.SVG);
     }
 }

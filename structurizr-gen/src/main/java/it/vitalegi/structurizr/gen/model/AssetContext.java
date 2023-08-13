@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class AssetContext {
 
-    private List<Asset> assets = new ArrayList<>();
+    private final List<Asset> assets = new ArrayList<>();
 
     public void addImage(String key, String format, Path path) {
         var asset = new Asset(key, format, path);

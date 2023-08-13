@@ -71,6 +71,14 @@ public class MarkdownUtil implements Closeable {
         return this;
     }
 
+    protected void write(String text) {
+        try {
+            os.write(text);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public MarkdownUtil h2(String text) {
         write("## " + text + "\n\n");
         return this;
@@ -112,14 +120,6 @@ public class MarkdownUtil implements Closeable {
 
     public MarkdownTable table(String... headers) {
         return new MarkdownTable(this, headers);
-    }
-
-    protected void write(String text) {
-        try {
-            os.write(text);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private String sanitizeUrlName(String name) {

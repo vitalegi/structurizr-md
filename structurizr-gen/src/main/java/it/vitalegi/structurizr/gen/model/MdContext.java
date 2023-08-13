@@ -18,6 +18,7 @@ import it.vitalegi.structurizr.gen.util.StructurizrUtil;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,24 +43,44 @@ public class MdContext {
         return path;
     }
 
+    public long countComponents(SoftwareSystem ss) {
+        return ss.getContainers().stream().flatMap(c -> c.getComponents().stream()).count();
+    }
+
+    public void forEachContainerSorted(BiConsumer<SoftwareSystem, Container> consumer) {
+        getSoftwareSystemsSorted().forEach(ss -> getContainersSorted(ss).forEach(c -> consumer.accept(ss, c)));
+    }
+
+    public Stream<SoftwareSystem> getSoftwareSystemsSorted() {
+        return sortModels(workspace.getModel().getSoftwareSystems().stream());
+    }
+
+    public Stream<Container> getContainersSorted(SoftwareSystem ss) {
+        return sortModels(ss.getContainers().stream());
+    }
+
+    protected <E extends Element> Stream<E> sortModels(Stream<E> stream) {
+        return stream.sorted(Comparator.comparing(E::getName).thenComparing(E::getId));
+    }
+
     public Stream<ComponentView> getComponentViewsSorted() {
         return sortViews(workspace.getViews().getComponentViews().stream());
     }
 
-    public Stream<Component> getComponentsSorted(Container c) {
-        return sortModels(c.getComponents().stream());
+    protected <E extends View> Stream<E> sortViews(Stream<E> views) {
+        return views.sorted(Comparator.comparing(View::getName).thenComparing(View::getKey));
     }
 
     public Stream<Component> getComponentsSorted(SoftwareSystem ss) {
         return ss.getContainers().stream().flatMap(this::getComponentsSorted);
     }
 
-    public Stream<ContainerView> getContainerViewsSorted() {
-        return sortViews(workspace.getViews().getContainerViews().stream());
+    public Stream<Component> getComponentsSorted(Container c) {
+        return sortModels(c.getComponents().stream());
     }
 
-    public Stream<Container> getContainersSorted(SoftwareSystem ss) {
-        return sortModels(ss.getContainers().stream());
+    public Stream<ContainerView> getContainerViewsSorted() {
+        return sortViews(workspace.getViews().getContainerViews().stream());
     }
 
     public Stream<DeploymentView> getDeploymentViewsSorted() {
@@ -88,19 +109,39 @@ public class MdContext {
         return sortRelationship(workspace.getModel().getRelationships().stream().filter(r -> isSource(r, tree)));
     }
 
+    public Stream<Element> getTree(SoftwareSystem ss) {
+        return Stream.concat(Stream.of(ss), ss.getContainers().stream().flatMap(this::getTree));
+    }
+
+    protected Stream<Relationship> sortRelationship(Stream<Relationship> stream) {
+        return stream.sorted(new RelationshipComparator());
+    }
+
+    public boolean isSource(Relationship relationship, List<Element> sources) {
+        return sources.stream().anyMatch(s -> relationship.getSource().equals(s));
+    }
+
+    public Stream<Element> getTree(Container c) {
+        return Stream.concat(Stream.of(c), c.getComponents().stream());
+    }
+
     public Stream<Relationship> getRelationsToTree(SoftwareSystem ss) {
         var tree = getTree(ss).collect(Collectors.toList());
         return sortRelationship(workspace.getModel().getRelationships().stream().filter(r -> isDestination(r, tree)));
     }
 
-    public Path getSoftwareSystemDir(SoftwareSystem softwareSystem) {
-        return SOFTWARE_SYSTEMS_ROOT.resolve(StructurizrUtil.sanitizeName(softwareSystem.getName()));
+    public boolean isDestination(Relationship relationship, List<Element> destinations) {
+        return destinations.stream().anyMatch(d -> relationship.getDestination().equals(d));
     }
 
     public Path getSoftwareSystemPath(SoftwareSystem softwareSystem) {
         var dir = mainDir.resolve(getSoftwareSystemDir(softwareSystem));
         FileUtil.createDirs(dir);
         return dir.resolve("README.md");
+    }
+
+    public Path getSoftwareSystemDir(SoftwareSystem softwareSystem) {
+        return SOFTWARE_SYSTEMS_ROOT.resolve(StructurizrUtil.sanitizeName(softwareSystem.getName()));
     }
 
     public Path getSoftwareSystemPathToRoot() {
@@ -110,10 +151,6 @@ public class MdContext {
     public Path getSoftwareSystemRelativePath(SoftwareSystem softwareSystem) {
         var dir = getSoftwareSystemDir(softwareSystem);
         return dir.resolve("README.md");
-    }
-
-    public Stream<SoftwareSystem> getSoftwareSystemsSorted() {
-        return sortModels(workspace.getModel().getSoftwareSystems().stream());
     }
 
     public Stream<SystemContextView> getSystemContextViewsSorted() {
@@ -129,36 +166,8 @@ public class MdContext {
                         .sorted(Comparator.comparing(SystemLandscapeView::getName));
     }
 
-    public Stream<Element> getTree(SoftwareSystem ss) {
-        return Stream.concat(Stream.of(ss), ss.getContainers().stream().flatMap(this::getTree));
-    }
-
-    public Stream<Element> getTree(Container c) {
-        return Stream.concat(Stream.of(c), c.getComponents().stream());
-    }
-
     public Workspace getWorkspace() {
         return workspace;
-    }
-
-    public boolean isDestination(Relationship relationship, List<Element> destinations) {
-        return destinations.stream().anyMatch(d -> relationship.getDestination().equals(d));
-    }
-
-    public boolean isSource(Relationship relationship, List<Element> sources) {
-        return sources.stream().anyMatch(s -> relationship.getSource().equals(s));
-    }
-
-    protected <E extends Element> Stream<E> sortModels(Stream<E> stream) {
-        return stream.sorted(Comparator.comparing(E::getName).thenComparing(E::getId));
-    }
-
-    protected Stream<Relationship> sortRelationship(Stream<Relationship> stream) {
-        return stream.sorted(new RelationshipComparator());
-    }
-
-    protected <E extends View> Stream<E> sortViews(Stream<E> views) {
-        return views.sorted(Comparator.comparing(View::getName).thenComparing(View::getKey));
     }
 
 }

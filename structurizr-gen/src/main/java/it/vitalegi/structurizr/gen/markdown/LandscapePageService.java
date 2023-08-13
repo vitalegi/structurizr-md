@@ -39,23 +39,28 @@ public class LandscapePageService {
         });
     }
 
+    protected void softwareSystemsToc(MarkdownUtil md) {
+        md.h2("Software Systems");
+        ctx.getSoftwareSystemsSorted().forEach(ss -> {
+            md.print(" - ");
+            md.mdLink(ss.getName(), ctx.getSoftwareSystemRelativePath(ss));
+            md.println();
+        });
+        md.println();
+    }
+
     protected void landscapeSystemConnectivity(MarkdownUtil md) {
         md.h2("Stats");
         md.h3("Software Systems");
         var table1 = md.table("Software System", "# Containers", "# Components");
         ctx.getSoftwareSystemsSorted()
-           .forEach(ss -> table1.addRow(ss.getName(), ss.getContainers().size(), ss.getContainers().stream()
-                                                                                   .flatMap(c -> c.getComponents()
-                                                                                                  .stream()).count()));
+           .forEach(ss -> table1.addRow(ss.getName(), ss.getContainers().size(), ctx.countComponents(ss)));
         table1.build();
         md.println();
 
         md.h3("Containers");
         var table2 = md.table("Software System", "Container", "# Components");
-        ctx.getSoftwareSystemsSorted().forEach(ss -> ctx.getContainersSorted(ss)
-                                                        .forEach(c -> table2.addRow(ss.getName(), c.getName(),
-                                                                (long) c.getComponents()
-                                                                                                                       .size())));
+        ctx.forEachContainerSorted((ss, c) -> table2.addRow(ss.getName(), c.getName(), c.getComponents().size()));
         table2.build();
         md.println();
 
@@ -66,31 +71,16 @@ public class LandscapePageService {
         md.println();
 
         var table4 = md.table("Software System", "Container", "#");
-        ctx.getSoftwareSystemsSorted().forEach(ss -> //
-                ctx.getContainersSorted(ss) //
-                   .forEach(container -> //
-                           table4.addRow(ss.getName(), container.getName(), container.getRelationships().size())));
+        ctx.forEachContainerSorted((ss, c) -> table4.addRow(ss.getName(), c.getName(), c.getRelationships().size()));
+
         table4.build();
         md.println();
 
         var table5 = md.table("Software System", "Container", "Component", "#");
-        ctx.getSoftwareSystemsSorted().forEach(ss -> //
-                ctx.getContainersSorted(ss).forEach(container -> //
-                        ctx.getComponentsSorted(container).forEach(component -> //
-                                table5.addRow(ss.getName(), container.getName(), component.getName(),
-                                        component.getRelationships()
-                                                                                                               .size()))));
-        table5.build();
-        md.println();
-    }
+        ctx.forEachContainerSorted((ss, c) -> ctx.getComponentsSorted(c).forEach(component -> //
+                table5.addRow(ss.getName(), c.getName(), component.getName(), component.getRelationships().size())));
 
-    protected void softwareSystemsToc(MarkdownUtil md) {
-        md.h2("Software Systems");
-        ctx.getSoftwareSystemsSorted().forEach(ss -> {
-            md.print(" - ");
-            md.mdLink(ss.getName(), ctx.getSoftwareSystemRelativePath(ss));
-            md.println();
-        });
+        table5.build();
         md.println();
     }
 }

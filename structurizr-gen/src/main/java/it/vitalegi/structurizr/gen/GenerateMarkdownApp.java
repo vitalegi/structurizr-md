@@ -60,13 +60,13 @@ public class GenerateMarkdownApp {
         ctx.getSoftwareSystemsSorted().forEach(ssp::softwareSystemPage);
     }
 
+    protected void loadViews(Workspace workspace) {
+        workspace.getViews().getViews().stream().forEach(this::loadView);
+    }
+
     protected void loadView(View view) {
         ctx.addImage(view.getKey(), "png");
         ctx.addImage(view.getKey(), "svg");
-    }
-
-    protected void loadViews(Workspace workspace) {
-        workspace.getViews().getViews().stream().forEach(this::loadView);
     }
 
 }
