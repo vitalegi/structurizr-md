@@ -9,13 +9,6 @@ description: System Context of App 4
 
 [png](../../images/system_context%20App%204.png) | [svg](../../images/system_context%20App%204.svg)
 
-### App 4 - System Context
-
-description: System Context of App 4
-![system_context App 4](../../images/system_context%20App%204.png)
-
-[png](../../images/system_context%20App%204.png) | [svg](../../images/system_context%20App%204.svg)
-
 ## Containers
 
 ### App 4 - Containers
@@ -27,6 +20,8 @@ description: Container view of App 4
 
 ## Components
 
+
+## Relationships
 
 ## Deployments
 

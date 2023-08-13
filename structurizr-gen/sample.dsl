@@ -1,6 +1,8 @@
 workspace "Amazon Web Services Example" "An example AWS deployment architecture." {
 
     model {
+        user = person "User"
+
         springPetClinic = softwaresystem "Spring PetClinic" "Allows employees to view and manage information regarding the veterinarians, the clients, and their pets." {
             webApplication = container "Web Application" "Allows employees to view and manage information regarding the veterinarians, the clients, and their pets." "Java and Spring Boot" {
                 tags "Application"
@@ -41,6 +43,8 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
 
         c4 -> c2 "test 1"
         c4 -> c1 "test 2"
+
+        user -> c2 "Access to user data"
 
         live = deploymentEnvironment "Live" {
 

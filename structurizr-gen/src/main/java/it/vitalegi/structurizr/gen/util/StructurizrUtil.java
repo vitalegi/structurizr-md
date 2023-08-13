@@ -3,6 +3,10 @@ package it.vitalegi.structurizr.gen.util;
 import com.structurizr.Workspace;
 import com.structurizr.dsl.StructurizrDslParser;
 import com.structurizr.dsl.StructurizrDslParserException;
+import com.structurizr.model.Component;
+import com.structurizr.model.Container;
+import com.structurizr.model.Element;
+import com.structurizr.model.SoftwareSystem;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -26,6 +30,46 @@ public class StructurizrUtil {
             name = name.replace(forbidden.get(i), "_");
         }
         return name;
+    }
+
+
+    public static Component getParentComponent(Element element) {
+        if (element instanceof SoftwareSystem) {
+            return null;
+        }
+        if (element instanceof Container) {
+            return null;
+        }
+        if (element instanceof Component) {
+            return (Component) element;
+        }
+        return null;
+    }
+
+    public static Container getParentContainer(Element element) {
+        if (element instanceof SoftwareSystem) {
+            return null;
+        }
+        if (element instanceof Container) {
+            return (Container) element;
+        }
+        if (element instanceof Component) {
+            return ((Component) element).getContainer();
+        }
+        return null;
+    }
+
+    public static SoftwareSystem getParentSoftwareSystem(Element element) {
+        if (element instanceof SoftwareSystem) {
+            return (SoftwareSystem) element;
+        }
+        if (element instanceof Container) {
+            return ((Container) element).getSoftwareSystem();
+        }
+        if (element instanceof Component) {
+            return ((Component) element).getContainer().getSoftwareSystem();
+        }
+        return null;
     }
 
 }
