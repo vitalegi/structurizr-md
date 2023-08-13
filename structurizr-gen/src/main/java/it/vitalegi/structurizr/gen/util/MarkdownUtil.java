@@ -110,31 +110,8 @@ public class MarkdownUtil implements Closeable {
         return this;
     }
 
-    public MarkdownUtil td(Object... values) {
-        print("|");
-        for (var value : values) {
-            String printable = "";
-            if (value != null) {
-                printable = value.toString();
-            }
-            print(" " + printable + " |");
-        }
-        println();
-        return this;
-    }
-
-    public MarkdownUtil th(String... headers) {
-        print("|");
-        for (var header : headers) {
-            print(" " + header + " |");
-        }
-        println();
-        print("|");
-        for (var i = 0; i < headers.length; i++) {
-            print(" --- |");
-        }
-        println();
-        return this;
+    public MarkdownTable table(String... headers) {
+        return new MarkdownTable(this, headers);
     }
 
     protected void write(String text) {

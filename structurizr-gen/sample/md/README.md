@@ -39,7 +39,7 @@
 
 | Software System | # |
 | --- | --- |
-| App 2 | 5 |
+| App 2 | 4 |
 | App 3 | 0 |
 | App 4 | 0 |
 | App 5()[]!!: []()%$&à\èéìù/ | 0 |
@@ -56,7 +56,7 @@
 
 | Software System | Container | Component | # |
 | --- | --- | --- | --- |
-| App 2 | Web Application 2: []()%$&à\èéìù/ | Web Service 3 | 3 |
+| App 2 | Web Application 2: []()%$&à\èéìù/ | Web Service 3 | 2 |
 | App 2 | Web Application 2: []()%$&à\èéìù/ | Web Service 4 | 4 |
 | Spring PetClinic | Web Application | Web Service 1 | 1 |
 | Spring PetClinic | Web Application | Web Service 2 | 1 |

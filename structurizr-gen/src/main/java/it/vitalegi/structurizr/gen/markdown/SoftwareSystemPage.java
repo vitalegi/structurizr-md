@@ -67,13 +67,18 @@ public class SoftwareSystemPage {
     }
 
     protected void createSectionSystemComponents(MarkdownUtil md, SoftwareSystem ss) {
-        md.h2("Component Diagrams");
+        md.h2("Components");
         createSection(md, ctx.getComponentViewsSorted().filter(v -> accept(v, ss)));
         md.println();
     }
 
     protected void createSectionSystemContexts(MarkdownUtil md, SoftwareSystem ss) {
-        md.h2("System Contexts");
+
+        createSection(md, ctx.getSystemContextViewsSorted().filter(v -> accept(v, ss)));
+        md.println();
+    }
+
+    protected void createSectionSystemContextsDiagrams(MarkdownUtil md, SoftwareSystem ss) {
         createSection(md, ctx.getSystemContextViewsSorted().filter(v -> accept(v, ss)));
         md.println();
     }
@@ -82,7 +87,9 @@ public class SoftwareSystemPage {
         try (var md = MarkdownUtil.init(filePath)) {
             md.h1(ss.getName());
 
+            md.h2("System Contexts");
             createSectionSystemContexts(md, ss);
+            createSectionSystemContextsDiagrams(md, ss);
             createSectionContainers(md, ss);
             createSectionSystemComponents(md, ss);
             createSectionDeployments(md, ss);

@@ -10,6 +10,8 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
             database = container "Database" "Stores information regarding the veterinarians, the clients, and their pets." "Relational database schema" {
                 tags "Database"
             }
+            c1 -> database "Reads from and writes to" "MySQL Protocol/SSL"
+            c2 -> c1
         }
 
         app2 = softwaresystem "App 2" {
@@ -22,6 +24,8 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
                 tags "Database"
             }
             container "test_:%<>|?"
+            c3 -> database2
+            c3 -> c4
         }
 
         app3 = softwaresystem "App 3" {
@@ -35,12 +39,8 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
         softwaresystem "App 5()[]!!: []()%$&à\èéìù/" {
         }
 
-        c1 -> database "Reads from and writes to" "MySQL Protocol/SSL"
-        c2 -> c1
-        c3 -> database
-        c3 -> c4
-        c4 -> c2
-        c4 -> c1 Test
+        c4 -> c2 "test 1"
+        c4 -> c1 "test 2"
 
         live = deploymentEnvironment "Live" {
 
