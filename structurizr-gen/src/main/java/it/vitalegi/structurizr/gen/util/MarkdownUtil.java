@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 public class MarkdownUtil implements Closeable {
     protected OutputStreamWriter os;
@@ -29,14 +30,9 @@ public class MarkdownUtil implements Closeable {
     }
 
     public MarkdownUtil addImage(String key, Path path) {
-        image(key, UrlUtil.toUrl(path));
+        image(key, path);
         println();
         println();
-        return this;
-    }
-
-    public MarkdownUtil addLink(String format, Path path) {
-        mdLink(format, UrlUtil.toUrl(path));
         return this;
     }
 
@@ -57,7 +53,7 @@ public class MarkdownUtil implements Closeable {
             if (i > 0) {
                 print(" | ");
             }
-            addLink(formats.get(i), relativePath.resolve(ctx.getImagePath(key, format)));
+            mdLink(formats.get(i), relativePath.resolve(ctx.getImagePath(key, format)));
         }
         println();
         return this;
@@ -85,17 +81,16 @@ public class MarkdownUtil implements Closeable {
         return this;
     }
 
-    public MarkdownUtil image(String name, String url) {
+    public MarkdownUtil image(String name, Path path) {
+        name = sanitizeUrlName(name);
+        var url = sanitizeUrlPath(path);
         write("![" + name + "](" + url + ")");
         return this;
     }
 
-    public MarkdownUtil link(String name, String url) {
-        write("<a href=\"" + url + "\">" + name + "</a>");
-        return this;
-    }
-
-    public MarkdownUtil mdLink(String name, String url) {
+    public MarkdownUtil mdLink(String name, Path path) {
+        name = sanitizeUrlName(name);
+        var url = sanitizeUrlPath(path);
         write("[" + name + "](" + url + ")");
         return this;
     }
@@ -149,4 +144,17 @@ public class MarkdownUtil implements Closeable {
             throw new RuntimeException(e);
         }
     }
+
+    private String sanitizeUrlName(String name) {
+        var forbidden = Arrays.asList("(", ")", "[", "]", "$");
+        for (var i = 0; i < forbidden.size(); i++) {
+            name = name.replace(forbidden.get(i), " ");
+        }
+        return name;
+    }
+
+    private String sanitizeUrlPath(Path path) {
+        return path.toString().replace("\\", "/").replace(" ", "%20");
+    }
+
 }

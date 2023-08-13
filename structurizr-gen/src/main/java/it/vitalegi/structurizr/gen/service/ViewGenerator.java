@@ -6,6 +6,7 @@ import com.structurizr.model.SoftwareSystem;
 import com.structurizr.view.ComponentView;
 import com.structurizr.view.ContainerView;
 import com.structurizr.view.SystemContextView;
+import it.vitalegi.structurizr.gen.util.StructurizrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,19 +29,16 @@ public class ViewGenerator {
         initViewsComponents();
     }
 
-    protected String createViewId(String prefix, String name) {
-        return prefix + " " + name;
-    }
-
     protected String createViewId(String prefix, Container c) {
         var ss = c.getSoftwareSystem();
         var name = getFirstNotNullOrEmpty(ss.getName(), ss.getId()) + " " + getFirstNotNullOrEmpty(c.getName(),
                 c.getId());
-        return createViewId(prefix, name);
+        return prefix + " " + StructurizrUtil.sanitizeName(name);
     }
 
     protected String createViewId(String prefix, SoftwareSystem softwareSystem) {
-        return createViewId(prefix, getFirstNotNullOrEmpty(softwareSystem.getName(), softwareSystem.getId()));
+        var name = getFirstNotNullOrEmpty(softwareSystem.getName(), softwareSystem.getId());
+        return prefix + " " + StructurizrUtil.sanitizeName(name);
     }
 
 

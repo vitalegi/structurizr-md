@@ -13,14 +13,15 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
         }
 
         app2 = softwaresystem "App 2" {
-            webApplication2 = container "Web Application 2" {
+            webApplication2 = container "Web Application 2: []()%$&à\èéìù/" {
                 tags "Application"
-                c3 = component "Web Service 3 ()%$&àèéìù"
+                c3 = component "Web Service 3"
                 c4 = component "Web Service 4"
             }
             database2 = container "Database" {
                 tags "Database"
             }
+            container "test_:%<>|?"
         }
 
         app3 = softwaresystem "App 3" {
@@ -30,6 +31,8 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
         }
 
         app4 = softwaresystem "App 4" {
+        }
+        softwaresystem "App 5()[]!!: []()%$&à\èéìù/" {
         }
 
         c1 -> database "Reads from and writes to" "MySQL Protocol/SSL"

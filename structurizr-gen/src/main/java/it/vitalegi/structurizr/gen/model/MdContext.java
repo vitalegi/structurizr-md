@@ -12,6 +12,7 @@ import com.structurizr.view.SystemContextView;
 import com.structurizr.view.SystemLandscapeView;
 import com.structurizr.view.View;
 import it.vitalegi.structurizr.gen.util.FileUtil;
+import it.vitalegi.structurizr.gen.util.StructurizrUtil;
 
 import java.nio.file.Path;
 import java.util.Comparator;
@@ -77,7 +78,7 @@ public class MdContext {
     }
 
     public Path getSoftwareSystemDir(SoftwareSystem softwareSystem) {
-        return SOFTWARE_SYSTEMS_ROOT.resolve(softwareSystem.getName());
+        return SOFTWARE_SYSTEMS_ROOT.resolve(StructurizrUtil.sanitizeName(softwareSystem.getName()));
     }
 
     public Path getSoftwareSystemPath(SoftwareSystem softwareSystem) {

@@ -20,9 +20,11 @@ public class GenerateMarkdownApp {
 
     MdContext ctx;
 
-    public GenerateMarkdownApp(Path dsl, Path mainDir) {
+    public GenerateMarkdownApp(Path dsl, Path mainDir, boolean generateViews) {
         var ws = StructurizrUtil.getWorkspace(dsl);
-        new ViewGenerator(ws).initDefaultViews();
+        if (generateViews) {
+            new ViewGenerator(ws).initDefaultViews();
+        }
         ctx = new MdContext(ws, mainDir);
     }
 
@@ -32,12 +34,15 @@ public class GenerateMarkdownApp {
         }
         var dsl = Path.of(args[0]);
         var mainDir = Path.of(args[1]);
-
-        log.info("DSL:        {}", dsl);
-        log.info("Output dir: {}", mainDir);
-
+        var generateViews = true;
+        if (args.length > 2) {
+            generateViews = Boolean.parseBoolean(args[2]);
+        }
+        log.info("DSL:            {}", dsl);
+        log.info("Output dir:     {}", mainDir);
+        log.info("Generate views: {}", generateViews);
         FileUtil.createDirs(mainDir);
-        var app = new GenerateMarkdownApp(dsl, mainDir);
+        var app = new GenerateMarkdownApp(dsl, mainDir, generateViews);
         app.createImages();
         app.createMd();
     }
