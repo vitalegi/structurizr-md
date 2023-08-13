@@ -1,6 +1,7 @@
 package it.vitalegi.structurizr.gen;
 
 import it.vitalegi.structurizr.gen.service.C4PlantUmlExporter;
+import it.vitalegi.structurizr.gen.service.ViewGenerator;
 import it.vitalegi.structurizr.gen.util.StructurizrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class GenerateImagesApp {
         log.info("Output dir: {}", mainDir);
 
         var ws = StructurizrUtil.getWorkspace(dsl);
+        new ViewGenerator(ws).initDefaultViews();
         new C4PlantUmlExporter().exportDiagramsC4Plant(ws, mainDir);
     }
 }

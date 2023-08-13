@@ -13,14 +13,23 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
         }
 
         app2 = softwaresystem "App 2" {
-            webApplication2 = container "Web Application" {
+            webApplication2 = container "Web Application 2" {
                 tags "Application"
-                c3 = component "Web Service 3"
+                c3 = component "Web Service 3 ()%$&àèéìù"
                 c4 = component "Web Service 4"
             }
             database2 = container "Database" {
                 tags "Database"
             }
+        }
+
+        app3 = softwaresystem "App 3" {
+            webApplication3 = container "Web Application 3" {
+                tags "Application"
+            }
+        }
+
+        app4 = softwaresystem "App 4" {
         }
 
         c1 -> database "Reads from and writes to" "MySQL Protocol/SSL"
@@ -78,46 +87,6 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
 
     views {
         systemLandscape landscape {
-            include *
-            autoLayout
-        }
-
-        systemContext springPetClinic app1_sc {
-            include *
-            autoLayout
-        }
-
-        systemContext app2 app2_sc "System context description..." {
-            include *
-            autoLayout
-        }
-
-        container springPetClinic app1_ct {
-            title "Title 123"
-            include *
-            autoLayout
-        }
-        container app2 app2_ct {
-            include *
-            autoLayout
-        }
-
-        component webApplication app1_webapp_c {
-            include *
-            autoLayout
-        }
-
-        component database app1_database_c {
-            include *
-            autoLayout
-        }
-
-        component webApplication2 app2_webapp_c {
-            include *
-            autoLayout
-        }
-
-        component database2 app2_database_c {
             include *
             autoLayout
         }

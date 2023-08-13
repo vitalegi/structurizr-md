@@ -4,31 +4,28 @@
 
 ### App 2 - System Context
 
-description: System context description...
-![app2_sc](../../images/app2_sc.png)
+description: System Context of App 2
+![system_context App 2](../../images/system_context%20App%202.png)
 
-[png](../../images/app2_sc.png) | [svg](../../images/app2_sc.svg)
+[png](../../images/system_context%20App%202.png) | [svg](../../images/system_context%20App%202.svg)
 
 ## Containers
 
 ### App 2 - Containers
 
-![app2_ct](../../images/app2_ct.png)
+description: Container view of App 2
+![container App 2](../../images/container%20App%202.png)
 
-[png](../../images/app2_ct.png) | [svg](../../images/app2_ct.svg)
+[png](../../images/container%20App%202.png) | [svg](../../images/container%20App%202.svg)
 
 ## Component Diagrams
 
-### App 2 - Database - Components
+### App 2 - Web Application 2 - Components
 
-![app2_database_c](../../images/app2_database_c.png)
+description: Component view of Web Application 2
+![component App 2 Web Application 2](../../images/component%20App%202%20Web%20Application%202.png)
 
-[png](../../images/app2_database_c.png) | [svg](../../images/app2_database_c.svg)
-### App 2 - Web Application - Components
-
-![app2_webapp_c](../../images/app2_webapp_c.png)
-
-[png](../../images/app2_webapp_c.png) | [svg](../../images/app2_webapp_c.svg)
+[png](../../images/component%20App%202%20Web%20Application%202.png) | [svg](../../images/component%20App%202%20Web%20Application%202.svg)
 
 ## Deployments
 

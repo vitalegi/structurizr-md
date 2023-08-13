@@ -4,30 +4,28 @@
 
 ### Spring PetClinic - System Context
 
-![app1_sc](../../images/app1_sc.png)
+description: System Context of Spring PetClinic
+![system_context Spring PetClinic](../../images/system_context%20Spring%20PetClinic.png)
 
-[png](../../images/app1_sc.png) | [svg](../../images/app1_sc.svg)
+[png](../../images/system_context%20Spring%20PetClinic.png) | [svg](../../images/system_context%20Spring%20PetClinic.svg)
 
 ## Containers
 
-### Title 123
+### Spring PetClinic - Containers
 
-![app1_ct](../../images/app1_ct.png)
+description: Container view of Spring PetClinic
+![container Spring PetClinic](../../images/container%20Spring%20PetClinic.png)
 
-[png](../../images/app1_ct.png) | [svg](../../images/app1_ct.svg)
+[png](../../images/container%20Spring%20PetClinic.png) | [svg](../../images/container%20Spring%20PetClinic.svg)
 
 ## Component Diagrams
 
-### Spring PetClinic - Database - Components
-
-![app1_database_c](../../images/app1_database_c.png)
-
-[png](../../images/app1_database_c.png) | [svg](../../images/app1_database_c.svg)
 ### Spring PetClinic - Web Application - Components
 
-![app1_webapp_c](../../images/app1_webapp_c.png)
+description: Component view of Web Application
+![component Spring PetClinic Web Application](../../images/component%20Spring%20PetClinic%20Web%20Application.png)
 
-[png](../../images/app1_webapp_c.png) | [svg](../../images/app1_webapp_c.svg)
+[png](../../images/component%20Spring%20PetClinic%20Web%20Application.png) | [svg](../../images/component%20Spring%20PetClinic%20Web%20Application.svg)
 
 ## Deployments
 
