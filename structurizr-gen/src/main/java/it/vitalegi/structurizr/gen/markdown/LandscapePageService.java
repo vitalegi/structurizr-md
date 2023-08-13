@@ -2,7 +2,6 @@ package it.vitalegi.structurizr.gen.markdown;
 
 import it.vitalegi.structurizr.gen.model.MdContext;
 import it.vitalegi.structurizr.gen.util.MarkdownUtil;
-import it.vitalegi.structurizr.gen.util.UrlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,7 +79,7 @@ public class LandscapePageService {
         md.h2("Software Systems");
         ctx.getSoftwareSystemsSorted().forEach(ss -> {
             md.print(" - ");
-            md.mdLink(ss.getName(), UrlUtil.toUrl(ctx.getSoftwareSystemRelativePath(ss)));
+            md.mdLink(ss.getName(), ctx.getSoftwareSystemRelativePath(ss));
             md.println();
         });
         md.println();

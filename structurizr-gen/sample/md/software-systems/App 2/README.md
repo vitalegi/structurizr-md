@@ -20,12 +20,12 @@ description: Container view of App 2
 
 ## Component Diagrams
 
-### App 2 - Web Application 2 - Components
+### App 2 - Web Application 2: []()%$&à\èéìù/ - Components
 
-description: Component view of Web Application 2
-![component App 2 Web Application 2](../../images/component%20App%202%20Web%20Application%202.png)
+description: Component view of Web Application 2: []()%$&à\èéìù/
+![component App 2 Web Application 2_ _______à_èéìù_](../../images/component%20App%202%20Web%20Application%202_%20_______à_èéìù_.png)
 
-[png](../../images/component%20App%202%20Web%20Application%202.png) | [svg](../../images/component%20App%202%20Web%20Application%202.svg)
+[png](../../images/component%20App%202%20Web%20Application%202_%20_______à_èéìù_.png) | [svg](../../images/component%20App%202%20Web%20Application%202_%20_______à_èéìù_.svg)
 
 ## Deployments
 

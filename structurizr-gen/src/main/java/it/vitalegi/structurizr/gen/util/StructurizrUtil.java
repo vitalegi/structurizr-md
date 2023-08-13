@@ -4,8 +4,8 @@ import com.structurizr.Workspace;
 import com.structurizr.dsl.StructurizrDslParser;
 import com.structurizr.dsl.StructurizrDslParserException;
 
-import java.io.File;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 public class StructurizrUtil {
 
@@ -18,4 +18,14 @@ public class StructurizrUtil {
             throw new RuntimeException(e);
         }
     }
+
+    public static String sanitizeName(String name) {
+        var forbidden = Arrays.asList("*", "?", "|", ":", "/", "\\", "%", "<", ">", "|", "?", "\"", "'", "(", ")",
+                "[", "]", "$", "&");
+        for (var i = 0; i < forbidden.size(); i++) {
+            name = name.replace(forbidden.get(i), "_");
+        }
+        return name;
+    }
+
 }
