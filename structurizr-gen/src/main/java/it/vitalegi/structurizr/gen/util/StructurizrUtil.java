@@ -26,8 +26,8 @@ public class StructurizrUtil {
     public static String sanitizeName(String name) {
         var forbidden = Arrays.asList("*", "?", "|", ":", "/", "\\", "%", "<", ">", "|", "?", "\"", "'", "(", ")",
                 "[", "]", "$", "&");
-        for (var i = 0; i < forbidden.size(); i++) {
-            name = name.replace(forbidden.get(i), "_");
+        for (String s : forbidden) {
+            name = name.replace(s, "_");
         }
         return name;
     }

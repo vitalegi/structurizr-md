@@ -43,8 +43,8 @@ mvn clean compile exec:java "-Dexec.args=sample.dsl sample/md/" "-Dexec.mainClas
 
 #### Params
 
-| Position | Mandatory | Default value | Description                                                                         |
-| -------- | --------- | ------------- | ----------------------------------------------------------------------------------- |
-| 1        | Yes       | N/A           | Path to the DSL file                                                                |
-| 2        | Yes       | N/A           | Folder where to create the generated content                                        |
-| 3        | No        | true          | true &rarr; generate also the images. false &rarr; assume the images already exists |
+| Position | Mandatory | Default value | Description                                                                                    |
+| -------- | --------- | ------------- |------------------------------------------------------------------------------------------------|
+| 1        | Yes       | N/A           | Path to the DSL file                                                                           |
+| 2        | Yes       | N/A           | Folder where to create the generated content                                                   |
+| 3        | No        | true          | true &rarr; generate all default views. false &rarr; use only the views available in the model |
