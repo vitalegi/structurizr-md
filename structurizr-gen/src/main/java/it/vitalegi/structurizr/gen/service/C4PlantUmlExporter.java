@@ -22,7 +22,7 @@ public class C4PlantUmlExporter {
 
     public void exportDiagramsC4Plant(Workspace workspace, Path out) {
         var diagrams = createC4PlantUmlDiagrams(workspace);
-        diagrams.forEach(d -> exportDiagram(d, out));
+        diagrams.parallelStream().forEach(d -> exportDiagram(d, out));
     }
 
     protected Collection<Diagram> createC4PlantUmlDiagrams(Workspace ws) {
