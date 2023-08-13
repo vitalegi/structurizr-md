@@ -14,18 +14,20 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-public class SoftwareSystemPages {
+public class SoftwareSystemPage {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     protected MdContext ctx;
 
-    public SoftwareSystemPages(MdContext ctx) {
+    public SoftwareSystemPage(MdContext ctx) {
         this.ctx = ctx;
     }
 
-    public void softwareSystemPages() {
-        ctx.getSoftwareSystemsSorted().forEach(this::softwareSystemPage);
+    public void softwareSystemPage(SoftwareSystem ss) {
+        var filePath = ctx.getSoftwareSystemPath(ss);
+        log.info("Found SoftwareSystem: id={}, name={}. File={}", ss.getId(), ss.getName(), filePath);
+        createSoftwareSystemPage(filePath, ss);
     }
 
     protected boolean accept(StaticView view, SoftwareSystem system) {
@@ -41,7 +43,6 @@ public class SoftwareSystemPages {
             md.println("description: " + view.getDescription());
         }
     }
-
 
     protected void createSection(MarkdownUtil md, Stream<? extends View> views) {
         views.forEach(v -> createSection(md, v));
@@ -95,12 +96,6 @@ public class SoftwareSystemPages {
             return view.getTitle();
         }
         return view.getName();
-    }
-
-    protected void softwareSystemPage(SoftwareSystem ss) {
-        var filePath = ctx.getSoftwareSystemPath(ss);
-        log.info("Found SoftwareSystem: id={}, name={}. File={}", ss.getId(), ss.getName(), filePath);
-        createSoftwareSystemPage(filePath, ss);
     }
 
 }

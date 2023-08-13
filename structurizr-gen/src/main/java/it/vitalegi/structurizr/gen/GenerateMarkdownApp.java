@@ -3,7 +3,7 @@ package it.vitalegi.structurizr.gen;
 import com.structurizr.Workspace;
 import com.structurizr.view.View;
 import it.vitalegi.structurizr.gen.markdown.LandscapePageService;
-import it.vitalegi.structurizr.gen.markdown.SoftwareSystemPages;
+import it.vitalegi.structurizr.gen.markdown.SoftwareSystemPage;
 import it.vitalegi.structurizr.gen.model.MdContext;
 import it.vitalegi.structurizr.gen.util.FileUtil;
 import it.vitalegi.structurizr.gen.util.StructurizrUtil;
@@ -41,7 +41,9 @@ public class GenerateMarkdownApp {
 
         loadViews(ctx.getWorkspace());
         new LandscapePageService(ctx).createLandscapePage();
-        new SoftwareSystemPages(ctx).softwareSystemPages();
+
+        var ssp = new SoftwareSystemPage(ctx);
+        ctx.getSoftwareSystemsSorted().forEach(ssp::softwareSystemPage);
     }
 
     protected void loadView(View view) {

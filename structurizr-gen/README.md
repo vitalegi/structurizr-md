@@ -31,7 +31,7 @@ mvn clean compile exec:java "-Dexec.args=sample.dsl sample/md/images/" "-Dexec.m
 Both commands will read configuration from file `sample.dsl` and export the images in `sample/images` folder. Both
 values can be replaced with absolute/relative paths.
 
-### Generate BitBucket pages
+### Generate Markdown pages
 
 ```
 java -cp target/structurizr-gen-jar-with-dependencies.jar it.vitalegi.structurizr.gen.GenerateMarkdownApp sample.dsl sample/md/
