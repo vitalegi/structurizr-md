@@ -1,9 +1,9 @@
-package it.vitalegi.structurizr.gen.service;
+package it.vitalegi.structurizr.md.service;
 
 import com.structurizr.Workspace;
 import com.structurizr.export.Diagram;
 import com.structurizr.export.plantuml.C4PlantUMLExporter;
-import it.vitalegi.structurizr.gen.util.FileUtil;
+import it.vitalegi.structurizr.md.util.FileUtil;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceStringReader;
