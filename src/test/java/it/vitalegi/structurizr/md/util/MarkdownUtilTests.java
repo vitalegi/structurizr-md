@@ -98,6 +98,5 @@ public class MarkdownUtilTests {
         md.mdLink("a", Path.of("p1", "p2", "p3"));
         var out = output();
         assertEquals("[a](p1/p2/p3)", out);
-        assertEquals("[a](p1/p2/p3)1", out);
     }
 }
