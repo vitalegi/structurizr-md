@@ -7,10 +7,13 @@ The following files have been resolved:
    org.apache.httpcomponents.client5:httpclient5:jar:5.2.1:compile
    javax.xml.bind:jaxb-api:jar:2.3.1:compile
    org.junit.jupiter:junit-jupiter-api:jar:5.10.0:test
+   org.objenesis:objenesis:jar:3.3:test
+   org.mockito:mockito-core:jar:5.4.0:test
    com.structurizr:structurizr-core:jar:1.26.1:compile
    com.structurizr:structurizr-dsl:jar:1.32.0:compile
    org.junit.platform:junit-platform-engine:jar:1.10.0:test
    com.fasterxml.jackson.core:jackson-databind:jar:2.14.2:compile
+   net.bytebuddy:byte-buddy-agent:jar:1.14.5:test
    ch.qos.logback:logback-classic:jar:1.4.11:compile
    net.sourceforge.plantuml:plantuml:jar:1.2023.10:compile
    org.apache.httpcomponents.core5:httpcore5:jar:5.2:compile
@@ -24,5 +27,7 @@ The following files have been resolved:
    org.junit.platform:junit-platform-commons:jar:1.10.0:test
    com.fasterxml.jackson.core:jackson-annotations:jar:2.14.2:compile
    org.apache.httpcomponents.core5:httpcore5-h2:jar:5.2:compile
+   org.mockito:mockito-junit-jupiter:jar:5.4.0:test
    com.fasterxml.jackson.core:jackson-core:jar:2.14.2:compile
+   net.bytebuddy:byte-buddy:jar:1.14.5:test
 
