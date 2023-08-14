@@ -19,13 +19,17 @@ public class GenerateMarkdownApp {
     private static final Logger log = LoggerFactory.getLogger(GenerateMarkdownApp.class);
 
     MdContext ctx;
+    boolean generateViews;
 
     public GenerateMarkdownApp(Path dsl, Path mainDir, boolean generateViews) {
         var ws = StructurizrUtil.getWorkspace(dsl);
-        if (generateViews) {
-            new ViewGenerator(ws).initDefaultViews();
-        }
+        this.generateViews = generateViews;
         ctx = new MdContext(ws, mainDir);
+    }
+
+    protected GenerateMarkdownApp(Workspace ws, Path mainDir) {
+        this.ctx = new MdContext(ws, mainDir);
+        this.generateViews = true;
     }
 
     public static void main(String[] args) {
@@ -43,15 +47,14 @@ public class GenerateMarkdownApp {
         log.info("Generate views: {}", generateViews);
         FileUtil.createDirs(mainDir);
         var app = new GenerateMarkdownApp(dsl, mainDir, generateViews);
-        app.createImages();
         app.createMd();
     }
 
-    public void createImages() {
-        new C4PlantUmlExporter().exportDiagramsC4Plant(ctx.getWorkspace(), ctx.getImagesRoot());
-    }
-
     public void createMd() {
+        if (generateViews) {
+            new ViewGenerator(ctx.getWorkspace()).initDefaultViews();
+        }
+        new C4PlantUmlExporter().exportDiagramsC4Plant(ctx.getWorkspace(), ctx.getImagesRoot());
 
         loadViews(ctx.getWorkspace());
         new LandscapePageService(ctx).createLandscapePage();
@@ -68,5 +71,4 @@ public class GenerateMarkdownApp {
         ctx.addImage(view.getKey(), "png");
         ctx.addImage(view.getKey(), "svg");
     }
-
 }
