@@ -1,4 +1,4 @@
-package it.vitalegi.structurizr.gen.util;
+package it.vitalegi.structurizr.md.util;
 
 import com.structurizr.Workspace;
 import com.structurizr.dsl.StructurizrDslParser;

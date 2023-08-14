@@ -1,14 +1,14 @@
-package it.vitalegi.structurizr.gen;
+package it.vitalegi.structurizr.md;
 
 import com.structurizr.Workspace;
 import com.structurizr.view.View;
-import it.vitalegi.structurizr.gen.markdown.LandscapePageService;
-import it.vitalegi.structurizr.gen.markdown.SoftwareSystemPage;
-import it.vitalegi.structurizr.gen.model.MdContext;
-import it.vitalegi.structurizr.gen.service.C4PlantUmlExporter;
-import it.vitalegi.structurizr.gen.service.ViewGenerator;
-import it.vitalegi.structurizr.gen.util.FileUtil;
-import it.vitalegi.structurizr.gen.util.StructurizrUtil;
+import it.vitalegi.structurizr.md.markdown.LandscapePageService;
+import it.vitalegi.structurizr.md.markdown.SoftwareSystemPage;
+import it.vitalegi.structurizr.md.model.MdContext;
+import it.vitalegi.structurizr.md.service.C4PlantUmlExporter;
+import it.vitalegi.structurizr.md.service.ViewGenerator;
+import it.vitalegi.structurizr.md.util.FileUtil;
+import it.vitalegi.structurizr.md.util.StructurizrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

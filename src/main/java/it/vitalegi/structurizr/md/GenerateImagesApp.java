@@ -1,8 +1,8 @@
-package it.vitalegi.structurizr.gen;
+package it.vitalegi.structurizr.md;
 
-import it.vitalegi.structurizr.gen.service.C4PlantUmlExporter;
-import it.vitalegi.structurizr.gen.service.ViewGenerator;
-import it.vitalegi.structurizr.gen.util.StructurizrUtil;
+import it.vitalegi.structurizr.md.service.C4PlantUmlExporter;
+import it.vitalegi.structurizr.md.service.ViewGenerator;
+import it.vitalegi.structurizr.md.util.StructurizrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

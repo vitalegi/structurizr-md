@@ -1,4 +1,4 @@
-package it.vitalegi.structurizr.gen.service;
+package it.vitalegi.structurizr.md.service;
 
 import com.structurizr.Workspace;
 import com.structurizr.model.Container;
@@ -6,11 +6,11 @@ import com.structurizr.model.SoftwareSystem;
 import com.structurizr.view.ComponentView;
 import com.structurizr.view.ContainerView;
 import com.structurizr.view.SystemContextView;
-import it.vitalegi.structurizr.gen.util.StructurizrUtil;
+import it.vitalegi.structurizr.md.util.StructurizrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static it.vitalegi.structurizr.gen.util.StringUtil.getFirstNotNullOrEmpty;
+import static it.vitalegi.structurizr.md.util.StringUtil.getFirstNotNullOrEmpty;
 
 public class ViewGenerator {
 

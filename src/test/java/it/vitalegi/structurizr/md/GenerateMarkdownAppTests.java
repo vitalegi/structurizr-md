@@ -1,6 +1,4 @@
-package it.vitalegi.structurizr.gen;
-
-import org.junit.jupiter.api.Test;
+package it.vitalegi.structurizr.md;
 
 import java.nio.file.Path;
 

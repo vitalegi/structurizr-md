@@ -1,4 +1,4 @@
-package it.vitalegi.structurizr.gen.model;
+package it.vitalegi.structurizr.md.model;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

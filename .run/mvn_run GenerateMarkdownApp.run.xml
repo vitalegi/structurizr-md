@@ -14,7 +14,7 @@
               <option value="compile" />
               <option value="exec:java" />
               <option value="-Dexec.args=sample.dsl sample/md/ true" />
-              <option value="-Dexec.mainClass=it.vitalegi.structurizr.gen.GenerateMarkdownApp" />
+              <option value="-Dexec.mainClass=it.vitalegi.structurizr.md.GenerateMarkdownApp" />
             </list>
           </option>
           <option name="pomFileName" />

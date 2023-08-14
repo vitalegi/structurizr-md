@@ -1,7 +1,7 @@
-package it.vitalegi.structurizr.gen.util;
+package it.vitalegi.structurizr.md.util;
 
 import com.structurizr.view.View;
-import it.vitalegi.structurizr.gen.model.MdContext;
+import it.vitalegi.structurizr.md.model.MdContext;
 
 import java.io.Closeable;
 import java.io.FileNotFoundException;

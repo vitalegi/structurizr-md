@@ -1,4 +1,4 @@
-package it.vitalegi.structurizr.gen.markdown;
+package it.vitalegi.structurizr.md.markdown;
 
 import com.structurizr.model.Element;
 import com.structurizr.model.Person;
@@ -7,11 +7,11 @@ import com.structurizr.model.SoftwareSystem;
 import com.structurizr.view.DeploymentView;
 import com.structurizr.view.StaticView;
 import com.structurizr.view.View;
-import it.vitalegi.structurizr.gen.model.MdContext;
-import it.vitalegi.structurizr.gen.util.MarkdownTable;
-import it.vitalegi.structurizr.gen.util.MarkdownUtil;
-import it.vitalegi.structurizr.gen.util.StringUtil;
-import it.vitalegi.structurizr.gen.util.StructurizrUtil;
+import it.vitalegi.structurizr.md.model.MdContext;
+import it.vitalegi.structurizr.md.util.MarkdownTable;
+import it.vitalegi.structurizr.md.util.MarkdownUtil;
+import it.vitalegi.structurizr.md.util.StringUtil;
+import it.vitalegi.structurizr.md.util.StructurizrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

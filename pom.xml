@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.vitalegi</groupId>
-    <artifactId>structurizr-gen</artifactId>
+    <artifactId>structurizr-md</artifactId>
     <version>0.0.4</version>
     <packaging>jar</packaging>
 
@@ -63,7 +63,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>structurizr-gen</finalName>
+        <finalName>structurizr-md</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

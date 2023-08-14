@@ -1,7 +1,7 @@
-package it.vitalegi.structurizr.gen.markdown;
+package it.vitalegi.structurizr.md.markdown;
 
-import it.vitalegi.structurizr.gen.model.MdContext;
-import it.vitalegi.structurizr.gen.util.MarkdownUtil;
+import it.vitalegi.structurizr.md.model.MdContext;
+import it.vitalegi.structurizr.md.util.MarkdownUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

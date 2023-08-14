@@ -1,4 +1,4 @@
-package it.vitalegi.structurizr.gen.model;
+package it.vitalegi.structurizr.md.model;
 
 import com.structurizr.Workspace;
 import com.structurizr.model.Component;
@@ -12,8 +12,8 @@ import com.structurizr.view.DeploymentView;
 import com.structurizr.view.SystemContextView;
 import com.structurizr.view.SystemLandscapeView;
 import com.structurizr.view.View;
-import it.vitalegi.structurizr.gen.util.FileUtil;
-import it.vitalegi.structurizr.gen.util.StructurizrUtil;
+import it.vitalegi.structurizr.md.util.FileUtil;
+import it.vitalegi.structurizr.md.util.StructurizrUtil;
 
 import java.nio.file.Path;
 import java.util.Comparator;

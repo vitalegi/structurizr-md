@@ -1,9 +1,9 @@
-package it.vitalegi.structurizr.gen.model;
+package it.vitalegi.structurizr.md.model;
 
 import com.structurizr.model.Element;
 import com.structurizr.model.Person;
 import com.structurizr.model.Relationship;
-import it.vitalegi.structurizr.gen.util.StructurizrUtil;
+import it.vitalegi.structurizr.md.util.StructurizrUtil;
 
 import java.util.Comparator;
 
