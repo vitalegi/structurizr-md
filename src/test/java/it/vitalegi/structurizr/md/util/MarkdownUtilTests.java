@@ -55,7 +55,7 @@ public class MarkdownUtilTests {
     }
 
     @Test
-    void test_addViewImages_withPng() throws IOException {
+    void test_addViewImages_withPng() {
 
         var view = mock(View.class);
         when(view.getKey()).thenReturn("a");
@@ -68,7 +68,7 @@ public class MarkdownUtilTests {
         md.addViewImages(view, ctx, Path.of("..", "images"));
         var out = output();
         assertEquals("![a](../images/a/b/foo%20bar.png)\n\n[png](../images/a/b/foo%20bar.png) | [svg](." + "./images" +
-                "/a/foo%20bar/c.svg)\n", out);
+                "/a/foo%20bar/c.svg)\n\n", out);
     }
 
 

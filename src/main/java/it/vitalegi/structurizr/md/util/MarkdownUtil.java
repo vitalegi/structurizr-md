@@ -56,6 +56,7 @@ public class MarkdownUtil implements Closeable {
             mdLink(formats.get(i), relativePath.resolve(ctx.getImagePath(key, format)));
         }
         println();
+        println();
         return this;
     }
 

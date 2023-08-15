@@ -6,9 +6,14 @@ import com.structurizr.model.Container;
 import com.structurizr.model.ContainerInstance;
 import com.structurizr.model.DeploymentNode;
 import com.structurizr.model.SoftwareSystem;
+import com.structurizr.view.ComponentView;
 import com.structurizr.view.DeploymentView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WorkspaceBuilder {
+
+    Logger log = LoggerFactory.getLogger(getClass());
 
     Workspace ws;
 
@@ -18,6 +23,27 @@ public class WorkspaceBuilder {
 
     public static WorkspaceBuilder init(String name, String description) {
         return new WorkspaceBuilder(name, description);
+    }
+
+    public ComponentView addComponentView(String softwareSystemName, int containerIndex, String key, String description) {
+        var container = findContainer(softwareSystemName, containerIndex);
+        var view = ws.getViews().createComponentView(container, key, description);
+        view.addDefaultElements();
+        view.enableAutomaticLayout();
+        return view;
+    }
+
+    public Container findContainer(String softwareSystemName, int containerIndex) {
+        return findContainer(getContainerName(softwareSystemName, containerIndex));
+    }
+
+    public Container findContainer(String name) {
+        return ws.getModel().getSoftwareSystems().stream().flatMap(s -> s.getContainers().stream())
+                 .filter(c -> c.getName().equals(name)).findFirst().orElse(null);
+    }
+
+    public String getContainerName(String softwareSystemName, int containerIndex) {
+        return "Container " + softwareSystemName + "_" + containerIndex;
     }
 
     public ContainerInstance addContainer(DeploymentNode node, Container container) {
@@ -47,20 +73,20 @@ public class WorkspaceBuilder {
     public SoftwareSystem addSoftwareSystem(String name, int containers, int componentsPerContainer) {
         var ss = ws.getModel().addSoftwareSystem(name);
         for (var c1 = 0; c1 < containers; c1++) {
-            var container = ss.addContainer(getContainerName(name, c1));
+            var containerName = getContainerName(name, c1);
+            var container = ss.addContainer(containerName);
+            log.info("Created container '{}'", containerName);
             for (var c2 = 0; c2 < componentsPerContainer; c2++) {
-                container.addComponent(getComponentName(name, c1, c2));
+                var componentName = getComponentName(name, c1, c2);
+                container.addComponent(componentName, "description " + componentName);
+                log.info("Created component '{}'", componentName);
             }
         }
         return ss;
     }
 
-    public String getContainerName(String softwareSystemName, int containerIndex) {
-        return softwareSystemName + "_" + containerIndex;
-    }
-
     public String getComponentName(String softwareSystemName, int containerIndex, int componentIndex) {
-        return softwareSystemName + "_" + containerIndex + "_" + componentIndex;
+        return "Component " + softwareSystemName + "_" + containerIndex + "_" + componentIndex;
     }
 
     public SoftwareSystem addSoftwareSystem(String name) {
@@ -99,14 +125,5 @@ public class WorkspaceBuilder {
 
     public Component findComponent(String softwareSystemName, int containerIndex, int componentIndex) {
         return findComponent(getComponentName(softwareSystemName, containerIndex, componentIndex));
-    }
-
-    public Container findContainer(String softwareSystemName, int containerIndex) {
-        return findContainer(getContainerName(softwareSystemName, containerIndex));
-    }
-
-    public Container findContainer(String name) {
-        return ws.getModel().getSoftwareSystems().stream().flatMap(s -> s.getContainers().stream())
-                 .filter(c -> c.getName().equals(name)).findFirst().orElse(null);
     }
 }

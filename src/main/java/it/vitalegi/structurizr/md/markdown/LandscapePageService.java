@@ -18,7 +18,7 @@ public class LandscapePageService {
         this.ctx = ctx;
     }
 
-    public void createLandscapePage() {
+    public void createPage() {
         var filePath = ctx.getSystemLandscape();
         log.info("Create landscape page {}", filePath);
         try (var md = MarkdownUtil.init(filePath)) {
