@@ -110,6 +110,18 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
             }
         }
 
+        deployment * "Live" "live" {
+            include *
+            autolayout lr
+
+            animation {
+                route53
+                elb
+                webApplicationInstance
+                databaseInstance
+            }
+        }
+
         styles {
             element "Element" {
                 shape roundedbox

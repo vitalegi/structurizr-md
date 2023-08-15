@@ -28,6 +28,13 @@ public class GenerateMarkdownApp {
         ctx = new MdContext(ws, mainDir);
     }
 
+    public GenerateMarkdownApp(MdContext ctx, boolean generateViews) {
+        this.ctx = ctx;
+        if (generateViews) {
+            new ViewGenerator(ctx.getWorkspace()).initDefaultViews();
+        }
+    }
+
     public static void main(String[] args) {
         if (args.length < 2) {
             throw new IllegalArgumentException("Mandatory arguments: dsl, outputDir");
