@@ -34,8 +34,13 @@ public class C4PlantUmlExporter {
 
     protected void exportDiagram(Diagram diagram, Path outDir) {
         log.info("Export diagram " + diagram.getKey());
+        logDiagram(diagram);
         saveAsSvg(outDir, diagram);
         saveAsPng(outDir, diagram);
+    }
+
+    protected void logDiagram(Diagram diagram) {
+        log.debug("PlantUML diagram:\n{}", diagram.getDefinition());
     }
 
     protected File saveAsSvg(Path outDir, Diagram diagram) {
