@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -79,8 +80,26 @@ public class MdContext {
         return sortModels(c.getComponents().stream());
     }
 
+    public Path getContainerPath(Container container) {
+        var dir = mainDir.resolve(getContainerDir(container));
+        FileUtil.createDirs(dir);
+        return dir.resolve("README.md");
+    }
+
+    public Path getContainerDir(Container container) {
+        return getSoftwareSystemDir(container.getSoftwareSystem()).resolve(StructurizrUtil.sanitizeName(container.getName()));
+    }
+
+    public Path getSoftwareSystemDir(SoftwareSystem softwareSystem) {
+        return SOFTWARE_SYSTEMS_ROOT.resolve(StructurizrUtil.sanitizeName(softwareSystem.getName()));
+    }
+
     public Stream<ContainerView> getContainerViewsSorted() {
         return sortViews(workspace.getViews().getContainerViews().stream());
+    }
+
+    public Stream<Container> getContainersSorted() {
+        return sortModels(workspace.getModel().getSoftwareSystems().stream().flatMap(s -> s.getContainers().stream()));
     }
 
     public Stream<DeploymentView> getDeploymentViewsSorted() {
@@ -134,18 +153,22 @@ public class MdContext {
         return destinations.stream().anyMatch(d -> relationship.getDestination().equals(d));
     }
 
+    public Stream<Relationship> getRelationships(Function<Relationship, Boolean> accept) {
+        return sortRelationship(workspace.getModel().getRelationships().stream().filter(accept::apply));
+    }
+
     public Path getSoftwareSystemPath(SoftwareSystem softwareSystem) {
         var dir = mainDir.resolve(getSoftwareSystemDir(softwareSystem));
         FileUtil.createDirs(dir);
         return dir.resolve("README.md");
     }
 
-    public Path getSoftwareSystemDir(SoftwareSystem softwareSystem) {
-        return SOFTWARE_SYSTEMS_ROOT.resolve(StructurizrUtil.sanitizeName(softwareSystem.getName()));
-    }
-
     public Path getSoftwareSystemPathToRoot() {
         return Path.of("..", "..");
+    }
+
+    public Path getContainerPathToRoot() {
+        return Path.of(".." ).resolve(getSoftwareSystemPathToRoot());
     }
 
     public Path getSoftwareSystemRelativePath(SoftwareSystem softwareSystem) {
@@ -168,6 +191,14 @@ public class MdContext {
 
     public Workspace getWorkspace() {
         return workspace;
+    }
+
+    public boolean isDestination(Relationship relationship, Element element) {
+        return relationship.getDestination().equals(element);
+    }
+
+    public boolean isSource(Relationship relationship, Element element) {
+        return relationship.getSource().equals(element);
     }
 
 }
