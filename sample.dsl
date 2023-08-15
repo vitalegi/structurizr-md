@@ -125,7 +125,10 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
                 shape cylinder
             }
         }
-
+        properties {
+            #c4plantuml.tags true
+            #c4plantuml.legend false
+        }
         themes https://static.structurizr.com/themes/amazon-web-services-2020.04.30/theme.json
     }
 
