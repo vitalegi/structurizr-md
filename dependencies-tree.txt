@@ -1,4 +1,4 @@
-it.vitalegi:structurizr-md:jar:0.0.5
+it.vitalegi:structurizr-md:jar:0.0.6
 +- com.structurizr:structurizr-core:jar:1.26.1:compile
 |  +- com.fasterxml.jackson.core:jackson-annotations:jar:2.14.2:compile
 |  +- com.google.code.findbugs:jsr305:jar:3.0.2:compile

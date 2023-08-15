@@ -3,7 +3,7 @@
 ## Create release files
 
 ```
-$newVersion = '0.0.6'
+$newVersion = '0.0.7'
 mvn versions:set "-DgenerateBackupPoms=false" "-DnewVersion=${newVersion}"
 git add pom.xml
 mvn dependency:tree "-DoutputFile=dependencies-tree.txt"
