@@ -4,8 +4,7 @@ import com.structurizr.model.Element;
 import com.structurizr.model.Person;
 import com.structurizr.model.Relationship;
 import com.structurizr.model.SoftwareSystem;
-import com.structurizr.view.DeploymentView;
-import com.structurizr.view.StaticView;
+import com.structurizr.view.ModelView;
 import com.structurizr.view.View;
 import it.vitalegi.structurizr.md.model.MdContext;
 import it.vitalegi.structurizr.md.util.MarkdownTable;
@@ -35,11 +34,10 @@ public class SoftwareSystemPage {
         createSoftwareSystemPage(filePath, ss);
     }
 
-    protected boolean accept(StaticView view, SoftwareSystem system) {
-        return view.getSoftwareSystemId().equals(system.getId());
-    }
-
-    protected boolean accept(DeploymentView view, SoftwareSystem system) {
+    protected boolean accept(ModelView view, SoftwareSystem system) {
+        if (view.getSoftwareSystemId() == null) {
+            return false;
+        }
         return view.getSoftwareSystemId().equals(system.getId());
     }
 
