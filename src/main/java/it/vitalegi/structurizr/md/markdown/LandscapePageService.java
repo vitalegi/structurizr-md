@@ -43,7 +43,7 @@ public class LandscapePageService {
         md.h2("Software Systems");
         ctx.getSoftwareSystemsSorted().forEach(ss -> {
             md.print(" - ");
-            md.mdLink(ss.getName(), ctx.getSoftwareSystemRelativePath(ss));
+            md.addLink(ss.getName(), ctx.getSoftwareSystemRelativePath(ss));
             md.println();
         });
         md.println();

@@ -7,10 +7,10 @@
 
 ## Relationships
 
-### Called by
+### Used By
 
-| Source Software System | Source Container | Source Component | Target Software System | Target Container | Target Component | Description |
-| --- | --- | --- | --- | --- | --- | --- |
-| Spring PetClinic | Web Application | Web Service 1 | Spring PetClinic | Database |  | Reads from and writes to |
-| Spring PetClinic | Web Application |  | Spring PetClinic | Database |  | Reads from and writes to |
+| Element | Description | Tags |
+| --- | --- | --- |
+| [Web Service 1](../../../software-systems/Spring%20PetClinic/Web%20Application/README.md) |  | Element,Component |
+| [Web Application](../../../software-systems/Spring%20PetClinic/Web%20Application/README.md) | Allows employees to view and manage information regarding the veterinarians, the clients, and their pets. | Element,Container,Application |
 

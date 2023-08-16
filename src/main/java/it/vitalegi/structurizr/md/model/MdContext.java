@@ -94,6 +94,19 @@ public class MdContext {
         return SOFTWARE_SYSTEMS_ROOT.resolve(StructurizrUtil.sanitizeName(softwareSystem.getName()));
     }
 
+    public Path getContainerPathToRoot() {
+        return Path.of("..").resolve(getSoftwareSystemPathToRoot());
+    }
+
+    public Path getSoftwareSystemPathToRoot() {
+        return Path.of("..", "..");
+    }
+
+    public Path getContainerRelativePath(Container container) {
+        var dir = getContainerDir(container);
+        return dir.resolve("README.md");
+    }
+
     public Stream<ContainerView> getContainerViewsSorted() {
         return sortViews(workspace.getViews().getContainerViews().stream());
     }
@@ -161,14 +174,6 @@ public class MdContext {
         var dir = mainDir.resolve(getSoftwareSystemDir(softwareSystem));
         FileUtil.createDirs(dir);
         return dir.resolve("README.md");
-    }
-
-    public Path getSoftwareSystemPathToRoot() {
-        return Path.of("..", "..");
-    }
-
-    public Path getContainerPathToRoot() {
-        return Path.of(".." ).resolve(getSoftwareSystemPathToRoot());
     }
 
     public Path getSoftwareSystemRelativePath(SoftwareSystem softwareSystem) {

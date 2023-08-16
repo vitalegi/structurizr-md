@@ -53,7 +53,7 @@ public class MarkdownUtil implements Closeable {
             if (i > 0) {
                 print(" | ");
             }
-            mdLink(formats.get(i), relativePath.resolve(ctx.getImagePath(key, format)));
+            addLink(formats.get(i), relativePath.resolve(ctx.getImagePath(key, format)));
         }
         println();
         println();
@@ -97,10 +97,14 @@ public class MarkdownUtil implements Closeable {
         return this;
     }
 
-    public MarkdownUtil mdLink(String name, Path path) {
+    public String link(String name, Path path) {
         name = sanitizeUrlName(name);
         var url = sanitizeUrlPath(path);
-        write("[" + name + "](" + url + ")");
+        return "[" + name + "](" + url + ")";
+    }
+
+    public MarkdownUtil addLink(String name, Path path) {
+        write(link(name, path));
         return this;
     }
 
