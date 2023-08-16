@@ -95,7 +95,7 @@ public class MarkdownUtilTests {
 
     @Test
     void test_mdLink() {
-        md.mdLink("a", Path.of("p1", "p2", "p3"));
+        md.addLink("a", Path.of("p1", "p2", "p3"));
         var out = output();
         assertEquals("[a](p1/p2/p3)", out);
     }

@@ -20,13 +20,13 @@ Description: Component view of Web Application 2: []()%$&à\èéìù/
 
 ## Relationships
 
-### Calls
+### Uses
 
-| Source Software System | Source Container | Source Component | Target Software System | Target Container | Target Component | Description |
-| --- | --- | --- | --- | --- | --- | --- |
-| App 2 | Web Application 2: []()%$&à\èéìù/ |  | App 2 | Database |  |  |
-| App 2 | Web Application 2: []()%$&à\èéìù/ |  | Spring PetClinic | Web Application |  | test 1 |
-| App 2 | Web Application 2: []()%$&à\èéìù/ |  | Spring PetClinic | Web Application | Web Service 1 | test 2 |
-| App 2 | Web Application 2: []()%$&à\èéìù/ |  | Spring PetClinic | Web Application | Web Service 2 | test 1 |
-| App 2 | Web Application 2: []()%$&à\èéìù/ |  | Spring PetClinic |  |  | test 1 |
+| Element | Description | Tags |
+| --- | --- | --- |
+| [Database](../../../software-systems/App%202/Database/README.md) |  | Element,Container,Database |
+| [Web Application](../../../software-systems/Spring%20PetClinic/Web%20Application/README.md) | Allows employees to view and manage information regarding the veterinarians, the clients, and their pets. | Element,Container,Application |
+| [Web Service 1](../../../software-systems/Spring%20PetClinic/Web%20Application/README.md) |  | Element,Component |
+| [Web Service 2](../../../software-systems/Spring%20PetClinic/Web%20Application/README.md) |  | Element,Component |
+| [Spring PetClinic](../../../software-systems/Spring%20PetClinic/README.md) | Allows employees to view and manage information regarding the veterinarians, the clients, and their pets. | Element,Software System |
 

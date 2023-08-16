@@ -20,18 +20,18 @@ Description: Component view of Web Application
 
 ## Relationships
 
-### Called by
+### Used By
 
-| Source Software System | Source Container | Source Component | Target Software System | Target Container | Target Component | Description |
-| --- | --- | --- | --- | --- | --- | --- |
-| App 2 | Web Application 2: []()%$&à\èéìù/ | Web Service 4 | Spring PetClinic | Web Application |  | test 1 |
-| App 2 | Web Application 2: []()%$&à\èéìù/ |  | Spring PetClinic | Web Application |  | test 1 |
-| App 2 |  |  | Spring PetClinic | Web Application |  | test 1 |
-| User |  |  | Spring PetClinic | Web Application |  | Access to user data |
+| Element | Description | Tags |
+| --- | --- | --- |
+| [Web Service 4](../../../software-systems/App%202/Web%20Application%202_%20_______à_èéìù_/README.md) |  | Element,Component |
+| [Web Application 2:     % &à\èéìù/](../../../software-systems/App%202/Web%20Application%202_%20_______à_èéìù_/README.md) |  | Element,Container,Application |
+| [App 2](../../../software-systems/App%202/README.md) |  | Element,Software System |
+| User |  | Element,Person |
 
-### Calls
+### Uses
 
-| Source Software System | Source Container | Source Component | Target Software System | Target Container | Target Component | Description |
-| --- | --- | --- | --- | --- | --- | --- |
-| Spring PetClinic | Web Application |  | Spring PetClinic | Database |  | Reads from and writes to |
+| Element | Description | Tags |
+| --- | --- | --- |
+| [Database](../../../software-systems/Spring%20PetClinic/Database/README.md) | Stores information regarding the veterinarians, the clients, and their pets. | Element,Container,Database |
 

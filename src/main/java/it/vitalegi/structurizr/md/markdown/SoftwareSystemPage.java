@@ -1,5 +1,7 @@
 package it.vitalegi.structurizr.md.markdown;
 
+import com.structurizr.model.Component;
+import com.structurizr.model.Container;
 import com.structurizr.model.Element;
 import com.structurizr.model.Person;
 import com.structurizr.model.Relationship;
@@ -10,12 +12,14 @@ import it.vitalegi.structurizr.md.model.MdContext;
 import it.vitalegi.structurizr.md.util.MarkdownTable;
 import it.vitalegi.structurizr.md.util.MarkdownUtil;
 import it.vitalegi.structurizr.md.util.StringUtil;
-import it.vitalegi.structurizr.md.util.StructurizrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class SoftwareSystemPage {
@@ -44,6 +48,7 @@ public class SoftwareSystemPage {
     protected void addDescription(MarkdownUtil md, View view) {
         if (StringUtil.isNotNullOrEmpty(view.getDescription())) {
             md.println("Description: " + view.getDescription());
+            md.println();
         }
     }
 
@@ -57,8 +62,8 @@ public class SoftwareSystemPage {
             createSectionContainers(md, ss);
             createSectionContainersDiagrams(md, ss);
             md.h2("Relationships");
-            createSectionCalledBy(md, ss);
-            createSectionCalls(md, ss);
+            createSectionUsedBy(md, ss);
+            createSectionUses(md, ss);
 
             createSectionDeployments(md, ss);
         } catch (IOException e) {
@@ -74,22 +79,6 @@ public class SoftwareSystemPage {
         md.h3(getName(view));
         addDescription(md, view);
         md.addViewImages(view, ctx, ctx.getSoftwareSystemPathToRoot());
-    }
-
-    protected void createSectionCalledBy(MarkdownUtil md, SoftwareSystem ss) {
-        if (ctx.getRelationsToTree(ss).count() == 0) {
-            return;
-        }
-        md.h3("Called by");
-        relationshipTable(md, ctx.getRelationsToTree(ss));
-    }
-
-    protected void createSectionCalls(MarkdownUtil md, SoftwareSystem ss) {
-        if (ctx.getRelationsFromTree(ss).count() == 0) {
-            return;
-        }
-        md.h3("Calls");
-        relationshipTable(md, ctx.getRelationsFromTree(ss));
     }
 
     protected void createSectionContainers(MarkdownUtil md, SoftwareSystem ss) {
@@ -118,6 +107,24 @@ public class SoftwareSystemPage {
         md.println();
     }
 
+    protected void createSectionUsedBy(MarkdownUtil md, SoftwareSystem softwareSystem) {
+        var calledBy = ctx.getRelationships(r -> ctx.isDestination(r, softwareSystem)).collect(Collectors.toList());
+        if (calledBy.isEmpty()) {
+            return;
+        }
+        md.h3("Used By");
+        relationshipTable(md, calledBy, Relationship::getSource);
+    }
+
+    protected void createSectionUses(MarkdownUtil md, SoftwareSystem softwareSystem) {
+        var calledBy = ctx.getRelationships(r -> ctx.isSource(r, softwareSystem)).collect(Collectors.toList());
+        if (calledBy.isEmpty()) {
+            return;
+        }
+        md.h3("Uses");
+        relationshipTable(md, calledBy, Relationship::getDestination);
+    }
+
     protected String getName(View view) {
         if (StringUtil.isNotNullOrEmpty(view.getTitle())) {
             return view.getTitle();
@@ -125,42 +132,46 @@ public class SoftwareSystemPage {
         return view.getName();
     }
 
-    protected void relationshipTable(MarkdownUtil md, Stream<Relationship> relationships) {
-        var table = md.table("Source Software System", "Source Container", "Source Component", "Target Software " +
-                "System", "Target Container", "Target Component", "Description");
-        relationships.forEach(r -> relationshipTableRow(table, r));
+    protected void relationshipTable(MarkdownUtil md, List<Relationship> relationships, Function<Relationship,
+            Element> other) {
+        var table = md.table("Element", "Description", "Tags");
+        relationships.forEach(r -> relationshipTableRow(md, table, other.apply(r)));
         table.build();
         md.println();
     }
 
-    protected void relationshipTableRow(MarkdownTable table, Relationship r) {
-        var src = r.getSource();
-        Element srcSS = StructurizrUtil.getParentSoftwareSystem(src);
-        Element srcCT = StructurizrUtil.getParentContainer(src);
-        Element srcCP = StructurizrUtil.getParentComponent(src);
-        if (src instanceof Person) {
-            srcSS = src;
-            srcCT = null;
-            srcCP = null;
+    protected void relationshipTableRow(MarkdownUtil md, MarkdownTable table, Element element) {
+        if (element instanceof Person) {
+            relationshipTableRowPerson(md, table, (Person) element);
+        } else if (element instanceof Component) {
+            relationshipTableRowComponent(md, table, (Component) element);
+        } else if (element instanceof Container) {
+            relationshipTableRowContainer(md, table, (Container) element);
+        } else if (element instanceof SoftwareSystem) {
+            relationshipTableRowSoftwareSystem(md, table, (SoftwareSystem) element);
+        } else {
+            table.addRow(element.getName(), element.getDescription(), element.getTags());
         }
-        var dest = r.getDestination();
-        Element destSS = StructurizrUtil.getParentSoftwareSystem(dest);
-        Element destCT = StructurizrUtil.getParentContainer(dest);
-        Element destCP = StructurizrUtil.getParentComponent(dest);
-        if (dest instanceof Person) {
-            destSS = dest;
-            destCT = null;
-            destCP = null;
-        }
-        table.addRow(getNameOrDefault(srcSS), getNameOrDefault(srcCT), getNameOrDefault(srcCP),
-                getNameOrDefault(destSS), getNameOrDefault(destCT), getNameOrDefault(destCP), r.getDescription());
     }
 
-    private String getNameOrDefault(Element element) {
-        if (element != null) {
-            return element.getName();
-        }
-        return "";
+    protected void relationshipTableRowComponent(MarkdownUtil md, MarkdownTable table, Component e) {
+        var path = ctx.getContainerPathToRoot().resolve(ctx.getContainerRelativePath(e.getContainer()));
+        table.addRow(md.link(e.getName(), path), e.getDescription(), e.getTags());
     }
+
+    protected void relationshipTableRowContainer(MarkdownUtil md, MarkdownTable table, Container e) {
+        var path = ctx.getContainerPathToRoot().resolve(ctx.getContainerRelativePath(e));
+        table.addRow(md.link(e.getName(), path), e.getDescription(), e.getTags());
+    }
+
+    protected void relationshipTableRowPerson(MarkdownUtil md, MarkdownTable table, Person e) {
+        table.addRow(e.getName(), e.getDescription(), e.getTags());
+    }
+
+    protected void relationshipTableRowSoftwareSystem(MarkdownUtil md, MarkdownTable table, SoftwareSystem e) {
+        var path = ctx.getContainerPathToRoot().resolve(ctx.getSoftwareSystemRelativePath(e));
+        table.addRow(md.link(e.getName(), path), e.getDescription(), e.getTags());
+    }
+
 
 }
