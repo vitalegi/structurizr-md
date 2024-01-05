@@ -12,7 +12,7 @@ What's found to be missing?
 
 ## Prerequirements
 
-- Java 11
+- Java 17
 - Maven
 - (TBV) <https://graphviz.org/>
 
