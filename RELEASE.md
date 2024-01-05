@@ -3,7 +3,7 @@
 ## Create release files
 
 ```
-$newVersion = '0.0.7'
+$newVersion = '0.0.8'
 mvn versions:set "-DgenerateBackupPoms=false" "-DnewVersion=${newVersion}"
 git add pom.xml
 mvn dependency:tree "-DoutputFile=dependencies-tree.txt"
@@ -17,4 +17,4 @@ Copy-Item ".\target\structurizr-md-jar-with-dependencies.jar" -Destination "stru
 
 Files to attach:
 
-- `structurizr-gen.jar`
+- `structurizr-md.jar`
