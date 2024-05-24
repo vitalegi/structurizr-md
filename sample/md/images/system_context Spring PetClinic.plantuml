@@ -7,12 +7,17 @@ top to bottom direction
 !include <C4/C4>
 !include <C4/C4_Context>
 
-Person(User, "User", $descr="", $tags="", $link="")
-System(App2, "App 2", $descr="", $tags="", $link="")
-System(SpringPetClinic, "Spring PetClinic", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="", $link="")
+AddElementTag("Software System", $bgColor="#0353a4", $borderColor="#023a72", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Element", $bgColor="#dddddd", $borderColor="#9a9a9a", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
 
-Rel(App2, SpringPetClinic, "test 1", $techn="", $tags="", $link="")
-Rel(User, SpringPetClinic, "Access to user data", $techn="", $tags="", $link="")
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
 
-SHOW_LEGEND(true)
+Person(User, "User", $descr="", $tags="Element", $link="")
+System(App2, "App 2", $descr="", $tags="Software System", $link="")
+System(SpringPetClinic, "Spring PetClinic", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="Software System", $link="")
+
+Rel(App2, SpringPetClinic, "test 1", $techn="", $tags="Relationship", $link="")
+Rel(User, SpringPetClinic, "Access to user data", $techn="", $tags="Relationship", $link="")
+
+hide stereotypes
 @enduml

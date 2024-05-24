@@ -66,6 +66,11 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
 
                     deploymentNode "Autoscaling group" {
                         tags "Amazon Web Services - Auto Scaling"
+                        properties {
+                            min 1
+                            max 10
+                            subnet 10.123.234.0
+                        }
 
                         deploymentNode "Amazon EC2" {
                             tags "Amazon Web Services - EC2"
@@ -87,7 +92,11 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
                 }
             }
 
-            route53 -> elb "Forwards requests to" "HTTPS"
+            route53 -> elb "Forwards requests to" "HTTPS" {
+                properties {
+                    port 443
+                }
+            }
             elb -> webApplicationInstance "Forwards requests to" "HTTPS"
         }
     }
@@ -125,21 +134,26 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
         styles {
             element "Element" {
                 shape roundedbox
-                background #ffffff
+                #background #B9D6F2
+            }
+            element "Component" {
+                background #003559
             }
             element "Container" {
-                background #ffffff
+                background #006DAA
             }
-            element "Application" {
-                background #ffffff
+            element "Software System" {
+                background #0353A4
             }
             element "Database" {
                 shape cylinder
             }
         }
         properties {
-            #c4plantuml.tags true
-            #c4plantuml.legend false
+            c4plantuml.tags true
+            c4plantuml.legend false
+            c4plantuml.elementProperties true
+            c4plantuml.relationshipProperties true
         }
         themes https://static.structurizr.com/themes/amazon-web-services-2020.04.30/theme.json
     }

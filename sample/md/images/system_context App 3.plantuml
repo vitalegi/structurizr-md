@@ -7,8 +7,10 @@ top to bottom direction
 !include <C4/C4>
 !include <C4/C4_Context>
 
-System(App3, "App 3", $descr="", $tags="", $link="")
+AddElementTag("Software System", $bgColor="#0353a4", $borderColor="#023a72", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+System(App3, "App 3", $descr="", $tags="Software System", $link="")
 
 
-SHOW_LEGEND(true)
+hide stereotypes
 @enduml

@@ -8,5 +8,5 @@ top to bottom direction
 !include <C4/C4_Context>
 
 
-SHOW_LEGEND(true)
+hide stereotypes
 @enduml

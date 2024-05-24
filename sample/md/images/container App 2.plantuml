@@ -8,16 +8,24 @@ top to bottom direction
 !include <C4/C4_Context>
 !include <C4/C4_Container>
 
-System(SpringPetClinic, "Spring PetClinic", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="", $link="")
+AddElementTag("Software System", $bgColor="#0353a4", $borderColor="#023a72", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Container,Database", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
 
-System_Boundary("App2_boundary", "App 2", $tags="") {
-  Container(App2.WebApplication2àèéìù, "Web Application 2: []()%$&à\èéìù/", $techn="", $descr="", $tags="", $link="")
-  ContainerDb(App2.Database, "Database", $techn="", $descr="", $tags="", $link="")
-  Container(App2.test_, "test_:%<>|?", $techn="", $descr="", $tags="", $link="")
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
+
+AddBoundaryTag("Software System", $bgColor="#ffffff", $borderColor="#023a72", $fontColor="#023a72", $shadowing="", $borderStyle="solid")
+
+System(SpringPetClinic, "Spring PetClinic", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="Software System", $link="")
+
+System_Boundary("App2_boundary", "App 2", $tags="Software System") {
+  Container(App2.WebApplication2àèéìù, "Web Application 2: []()%$&à\èéìù/", $techn="", $descr="", $tags="Container", $link="")
+  ContainerDb(App2.Database, "Database", $techn="", $descr="", $tags="Container,Database", $link="")
+  Container(App2.test_, "test_:%<>|?", $techn="", $descr="", $tags="Container", $link="")
 }
 
-Rel(App2.WebApplication2àèéìù, App2.Database, "", $techn="", $tags="", $link="")
-Rel(App2.WebApplication2àèéìù, SpringPetClinic, "test 1", $techn="", $tags="", $link="")
+Rel(App2.WebApplication2àèéìù, App2.Database, "", $techn="", $tags="Relationship", $link="")
+Rel(App2.WebApplication2àèéìù, SpringPetClinic, "test 1", $techn="", $tags="Relationship", $link="")
 
-SHOW_LEGEND(true)
+hide stereotypes
 @enduml

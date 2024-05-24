@@ -8,10 +8,14 @@ top to bottom direction
 !include <C4/C4_Context>
 !include <C4/C4_Container>
 
-System_Boundary("App3_boundary", "App 3", $tags="") {
-  Container(App3.WebApplication3, "Web Application 3", $techn="", $descr="", $tags="", $link="")
+AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+AddBoundaryTag("Software System", $bgColor="#ffffff", $borderColor="#023a72", $fontColor="#023a72", $shadowing="", $borderStyle="solid")
+
+System_Boundary("App3_boundary", "App 3", $tags="Software System") {
+  Container(App3.WebApplication3, "Web Application 3", $techn="", $descr="", $tags="Container", $link="")
 }
 
 
-SHOW_LEGEND(true)
+hide stereotypes
 @enduml

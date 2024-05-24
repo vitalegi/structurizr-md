@@ -8,17 +8,26 @@ top to bottom direction
 !include <C4/C4_Context>
 !include <C4/C4_Container>
 
-Person(User, "User", $descr="", $tags="", $link="")
-System(App2, "App 2", $descr="", $tags="", $link="")
+AddElementTag("Software System", $bgColor="#0353a4", $borderColor="#023a72", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Element", $bgColor="#dddddd", $borderColor="#9a9a9a", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Container,Database", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
 
-System_Boundary("SpringPetClinic_boundary", "Spring PetClinic", $tags="") {
-  Container(SpringPetClinic.WebApplication, "Web Application", $techn="Java and Spring Boot", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="", $link="")
-  ContainerDb(SpringPetClinic.Database, "Database", $techn="Relational database schema", $descr="Stores information regarding the veterinarians, the clients, and their pets.", $tags="", $link="")
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
+
+AddBoundaryTag("Software System", $bgColor="#ffffff", $borderColor="#023a72", $fontColor="#023a72", $shadowing="", $borderStyle="solid")
+
+Person(User, "User", $descr="", $tags="Element", $link="")
+System(App2, "App 2", $descr="", $tags="Software System", $link="")
+
+System_Boundary("SpringPetClinic_boundary", "Spring PetClinic", $tags="Software System") {
+  Container(SpringPetClinic.WebApplication, "Web Application", $techn="Java and Spring Boot", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="Container", $link="")
+  ContainerDb(SpringPetClinic.Database, "Database", $techn="Relational database schema", $descr="Stores information regarding the veterinarians, the clients, and their pets.", $tags="Container,Database", $link="")
 }
 
-Rel(App2, SpringPetClinic.WebApplication, "test 1", $techn="", $tags="", $link="")
-Rel(User, SpringPetClinic.WebApplication, "Access to user data", $techn="", $tags="", $link="")
-Rel(SpringPetClinic.WebApplication, SpringPetClinic.Database, "Reads from and writes to", $techn="MySQL Protocol/SSL", $tags="", $link="")
+Rel(App2, SpringPetClinic.WebApplication, "test 1", $techn="", $tags="Relationship", $link="")
+Rel(User, SpringPetClinic.WebApplication, "Access to user data", $techn="", $tags="Relationship", $link="")
+Rel(SpringPetClinic.WebApplication, SpringPetClinic.Database, "Reads from and writes to", $techn="MySQL Protocol/SSL", $tags="Relationship", $link="")
 
-SHOW_LEGEND(true)
+hide stereotypes
 @enduml
