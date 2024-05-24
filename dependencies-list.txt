@@ -1,11 +1,11 @@
 
 The following files have been resolved:
-   com.structurizr:structurizr-core:jar:1.29.0:compile[36m -- module structurizr.core[0;1;33m (auto)[m
+   com.structurizr:structurizr-core:jar:2.1.2:compile[36m -- module structurizr.core[0;1;33m (auto)[m
    com.fasterxml.jackson.core:jackson-annotations:jar:2.16.0:compile[36m -- module com.fasterxml.jackson.annotation[m
    com.google.code.findbugs:jsr305:jar:3.0.2:compile[36m -- module jsr305[0;1;33m (auto)[m
    commons-logging:commons-logging:jar:1.2:compile[36m -- module commons.logging[0;1;33m (auto)[m
-   com.structurizr:structurizr-dsl:jar:1.35.0:compile[36m -- module structurizr.dsl[0;1;33m (auto)[m
-   com.structurizr:structurizr-client:jar:1.29.0:compile[36m -- module structurizr.client[0;1;33m (auto)[m
+   com.structurizr:structurizr-dsl:jar:2.1.2:compile[36m -- module structurizr.dsl[0;1;33m (auto)[m
+   com.structurizr:structurizr-client:jar:2.1.2:compile[36m -- module structurizr.client[0;1;33m (auto)[m
    com.fasterxml.jackson.core:jackson-databind:jar:2.16.0:compile[36m -- module com.fasterxml.jackson.databind[m
    com.fasterxml.jackson.core:jackson-core:jar:2.16.0:compile[36m -- module com.fasterxml.jackson.core[m
    org.apache.httpcomponents.client5:httpclient5:jar:5.2.1:compile[36m -- module org.apache.httpcomponents.client5.httpclient5[0;1m [auto][m
@@ -13,21 +13,21 @@ The following files have been resolved:
    org.apache.httpcomponents.core5:httpcore5-h2:jar:5.2:compile[36m -- module org.apache.httpcomponents.core5.httpcore5.h2[0;1m [auto][m
    javax.xml.bind:jaxb-api:jar:2.4.0-b180830.0359:compile[36m -- module java.xml.bind[m
    javax.activation:javax.activation-api:jar:1.2.0:compile[36m -- module java.activation[0;1m [auto][m
-   com.structurizr:structurizr-import:jar:1.7.0:compile
-   com.structurizr:structurizr-export:jar:1.18.0:compile[36m -- module structurizr.export[0;1;33m (auto)[m
-   net.sourceforge.plantuml:plantuml:jar:1.2023.13:compile[36m -- module net.sourceforge.plantuml[0;1m [auto][m
-   ch.qos.logback:logback-core:jar:1.4.14:compile[36m -- module ch.qos.logback.core[m
-   org.slf4j:slf4j-api:jar:2.0.10:compile[36m -- module org.slf4j[m
-   ch.qos.logback:logback-classic:jar:1.4.14:compile[36m -- module ch.qos.logback.classic[m
-   org.junit.jupiter:junit-jupiter-engine:jar:5.10.1:test[36m -- module org.junit.jupiter.engine[m
-   org.junit.platform:junit-platform-engine:jar:1.10.1:test[36m -- module org.junit.platform.engine[m
+   com.structurizr:structurizr-import:jar:2.1.2:compile
+   com.structurizr:structurizr-export:jar:2.1.2:compile[36m -- module structurizr.export[0;1;33m (auto)[m
+   net.sourceforge.plantuml:plantuml:jar:1.2024.4:compile[36m -- module net.sourceforge.plantuml[0;1m [auto][m
+   ch.qos.logback:logback-core:jar:1.5.6:compile[36m -- module ch.qos.logback.core[m
+   org.slf4j:slf4j-api:jar:2.0.13:compile[36m -- module org.slf4j[m
+   ch.qos.logback:logback-classic:jar:1.5.6:compile[36m -- module ch.qos.logback.classic[m
+   org.junit.jupiter:junit-jupiter-engine:jar:5.10.2:test[36m -- module org.junit.jupiter.engine[m
+   org.junit.platform:junit-platform-engine:jar:1.10.2:test[36m -- module org.junit.platform.engine[m
    org.opentest4j:opentest4j:jar:1.3.0:test[36m -- module org.opentest4j[m
-   org.junit.platform:junit-platform-commons:jar:1.10.1:test[36m -- module org.junit.platform.commons[m
-   org.junit.jupiter:junit-jupiter-api:jar:5.10.1:test[36m -- module org.junit.jupiter.api[m
+   org.junit.platform:junit-platform-commons:jar:1.10.2:test[36m -- module org.junit.platform.commons[m
+   org.junit.jupiter:junit-jupiter-api:jar:5.10.2:test[36m -- module org.junit.jupiter.api[m
    org.apiguardian:apiguardian-api:jar:1.1.2:test[36m -- module org.apiguardian.api[m
-   org.mockito:mockito-junit-jupiter:jar:5.8.0:test[36m -- module org.mockito.junit.jupiter[0;1m [auto][m
-   org.mockito:mockito-core:jar:5.8.0:test[36m -- module org.mockito[0;1m [auto][m
-   net.bytebuddy:byte-buddy:jar:1.14.10:test[36m -- module net.bytebuddy[m
-   net.bytebuddy:byte-buddy-agent:jar:1.14.10:test[36m -- module net.bytebuddy.agent[m
+   org.mockito:mockito-junit-jupiter:jar:5.12.0:test[36m -- module org.mockito.junit.jupiter[0;1m [auto][m
+   org.mockito:mockito-core:jar:5.12.0:test[36m -- module org.mockito[0;1m [auto][m
+   net.bytebuddy:byte-buddy:jar:1.14.15:test[36m -- module net.bytebuddy[m
+   net.bytebuddy:byte-buddy-agent:jar:1.14.15:test[36m -- module net.bytebuddy.agent[m
    org.objenesis:objenesis:jar:3.3:test[36m -- module org.objenesis[0;1m [auto][m
 
