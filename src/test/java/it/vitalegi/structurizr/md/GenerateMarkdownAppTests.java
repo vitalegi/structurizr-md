@@ -149,6 +149,7 @@ public class GenerateMarkdownAppTests {
         // check
         assertExists(ROOT.resolve("images").resolve("view1.png"));
         assertExists(ROOT.resolve("images").resolve("view1.svg"));
+        assertExists(ROOT.resolve("images").resolve("view1.plantuml"));
     }
 
     private Path createTempDir(String prefix) {

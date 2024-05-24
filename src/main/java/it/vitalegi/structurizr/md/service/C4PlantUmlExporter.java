@@ -67,6 +67,7 @@ public class C4PlantUmlExporter {
         var filename = diagram.getKey() + ".plantuml";
         var out = outDir.resolve(filename).toFile();
         log.info("Save diagram as " + out);
+        FileUtil.createDirs(outDir);
         try (var pw = new PrintWriter(out)) {
             pw.println(diagram.getDefinition());
         } catch (FileNotFoundException e) {
