@@ -35,7 +35,6 @@ public class ViewGenerator {
             var view = ws.getViews().createSystemLandscapeView("landscape", "Landscape");
             view.addDefaultElements();
             view.enableAutomaticLayout();
-            view.setEnterpriseBoundaryVisible(true);
         }
     }
 
@@ -48,7 +47,6 @@ public class ViewGenerator {
                                      "System Context of " + ss.getName());
                 view.addDefaultElements();
                 view.enableAutomaticLayout();
-                view.setEnterpriseBoundaryVisible(true);
             }
         });
     }
@@ -62,7 +60,6 @@ public class ViewGenerator {
                                      "Container view of " + ss.getName());
                 view.addDefaultElements();
                 view.enableAutomaticLayout();
-                view.setExternalSoftwareSystemBoundariesVisible(true);
             }
         });
     }
@@ -98,7 +95,6 @@ public class ViewGenerator {
                                  "Component view of " + container.getName());
             view.addDefaultElements();
             view.enableAutomaticLayout();
-            view.setExternalSoftwareSystemBoundariesVisible(true);
         }
     }
 
