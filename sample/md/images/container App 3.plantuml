@@ -1,0 +1,17 @@
+@startuml
+set separator none
+title App 3 - Containers
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+System_Boundary("App3_boundary", "App 3", $tags="") {
+  Container(App3.WebApplication3, "Web Application 3", $techn="", $descr="", $tags="", $link="")
+}
+
+
+SHOW_LEGEND(true)
+@enduml

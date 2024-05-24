@@ -1,0 +1,14 @@
+@startuml
+set separator none
+title App 5()[]!!: []()%$&à\èéìù/ - System Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+System(App5àèéìù, "App 5()[]!!: []()%$&à\èéìù/", $descr="", $tags="", $link="")
+
+
+SHOW_LEGEND(true)
+@enduml

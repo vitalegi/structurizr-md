@@ -1,0 +1,18 @@
+@startuml
+set separator none
+title Spring PetClinic - System Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+Person(User, "User", $descr="", $tags="", $link="")
+System(App2, "App 2", $descr="", $tags="", $link="")
+System(SpringPetClinic, "Spring PetClinic", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="", $link="")
+
+Rel(App2, SpringPetClinic, "test 1", $techn="", $tags="", $link="")
+Rel(User, SpringPetClinic, "Access to user data", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

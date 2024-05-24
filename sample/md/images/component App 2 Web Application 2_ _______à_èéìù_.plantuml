@@ -1,0 +1,25 @@
+@startuml
+set separator none
+title App 2 - Web Application 2: []()%$&à\èéìù/ - Components
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <C4/C4_Component>
+
+System(SpringPetClinic, "Spring PetClinic", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="", $link="")
+ContainerDb(App2.Database, "Database", $techn="", $descr="", $tags="", $link="")
+
+Container_Boundary("App2.WebApplication2àèéìù_boundary", "Web Application 2: []()%$&à\èéìù/", $tags="") {
+  Component(App2.WebApplication2àèéìù.WebService3, "Web Service 3", $techn="", $descr="", $tags="", $link="")
+  Component(App2.WebApplication2àèéìù.WebService4, "Web Service 4", $techn="", $descr="", $tags="", $link="")
+}
+
+Rel(App2.WebApplication2àèéìù.WebService3, App2.Database, "", $techn="", $tags="", $link="")
+Rel(App2.WebApplication2àèéìù.WebService3, App2.WebApplication2àèéìù.WebService4, "", $techn="", $tags="", $link="")
+Rel(App2.WebApplication2àèéìù.WebService4, SpringPetClinic, "test 1", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

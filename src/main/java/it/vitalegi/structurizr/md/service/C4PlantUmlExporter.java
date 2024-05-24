@@ -11,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.util.Collection;
 
@@ -28,19 +30,31 @@ public class C4PlantUmlExporter {
     protected Collection<Diagram> createC4PlantUmlDiagrams(Workspace ws) {
         C4PlantUMLExporter exporter = new C4PlantUMLExporter();
         ws.getViews().getViews()
-          .forEach(v -> v.addProperty(C4PlantUMLExporter.C4PLANTUML_STANDARD_LIBRARY_PROPERTY, "true"));
+                .forEach(v -> v.addProperty(C4PlantUMLExporter.C4PLANTUML_STANDARD_LIBRARY_PROPERTY, "true"));
         return exporter.export(ws);
     }
 
     protected void exportDiagram(Diagram diagram, Path outDir) {
         log.info("Export diagram " + diagram.getKey());
         logDiagram(diagram);
+        saveDiagram(outDir, diagram);
         saveAsSvg(outDir, diagram);
         saveAsPng(outDir, diagram);
     }
 
     protected void logDiagram(Diagram diagram) {
         log.debug("PlantUML diagram:\n{}", diagram.getDefinition());
+    }
+
+    protected void saveDiagram(Path outDir, Diagram diagram) {
+        var filename = diagram.getKey() + ".plantuml";
+        var out = outDir.resolve(filename).toFile();
+        log.info("Save diagram as " + out);
+        try (var pw = new PrintWriter(out)) {
+            pw.println(diagram.getDefinition());
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected File saveAsSvg(Path outDir, Diagram diagram) {

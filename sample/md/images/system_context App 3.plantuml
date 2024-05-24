@@ -1,0 +1,14 @@
+@startuml
+set separator none
+title App 3 - System Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+System(App3, "App 3", $descr="", $tags="", $link="")
+
+
+SHOW_LEGEND(true)
+@enduml

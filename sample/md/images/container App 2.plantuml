@@ -1,0 +1,23 @@
+@startuml
+set separator none
+title App 2 - Containers
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+System(SpringPetClinic, "Spring PetClinic", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="", $link="")
+
+System_Boundary("App2_boundary", "App 2", $tags="") {
+  Container(App2.WebApplication2àèéìù, "Web Application 2: []()%$&à\èéìù/", $techn="", $descr="", $tags="", $link="")
+  ContainerDb(App2.Database, "Database", $techn="", $descr="", $tags="", $link="")
+  Container(App2.test_, "test_:%<>|?", $techn="", $descr="", $tags="", $link="")
+}
+
+Rel(App2.WebApplication2àèéìù, App2.Database, "", $techn="", $tags="", $link="")
+Rel(App2.WebApplication2àèéìù, SpringPetClinic, "test 1", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

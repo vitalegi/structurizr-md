@@ -1,0 +1,16 @@
+@startuml
+set separator none
+title App 2 - System Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+System(App2, "App 2", $descr="", $tags="", $link="")
+System(SpringPetClinic, "Spring PetClinic", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="", $link="")
+
+Rel(App2, SpringPetClinic, "test 1", $techn="", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+set separator none
+title Spring PetClinic - Containers
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+Person(User, "User", $descr="", $tags="", $link="")
+System(App2, "App 2", $descr="", $tags="", $link="")
+
+System_Boundary("SpringPetClinic_boundary", "Spring PetClinic", $tags="") {
+  Container(SpringPetClinic.WebApplication, "Web Application", $techn="Java and Spring Boot", $descr="Allows employees to view and manage information regarding the veterinarians, the clients, and their pets.", $tags="", $link="")
+  ContainerDb(SpringPetClinic.Database, "Database", $techn="Relational database schema", $descr="Stores information regarding the veterinarians, the clients, and their pets.", $tags="", $link="")
+}
+
+Rel(App2, SpringPetClinic.WebApplication, "test 1", $techn="", $tags="", $link="")
+Rel(User, SpringPetClinic.WebApplication, "Access to user data", $techn="", $tags="", $link="")
+Rel(SpringPetClinic.WebApplication, SpringPetClinic.Database, "Reads from and writes to", $techn="MySQL Protocol/SSL", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
