@@ -2,7 +2,10 @@ package it.vitalegi.structurizr.md.service;
 
 import com.structurizr.Workspace;
 import com.structurizr.export.Diagram;
+import com.structurizr.export.IndentingWriter;
 import com.structurizr.export.plantuml.C4PlantUMLExporter;
+import com.structurizr.util.StringUtils;
+import com.structurizr.view.ModelView;
 import it.vitalegi.structurizr.md.util.FileUtil;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
@@ -20,6 +23,8 @@ import java.util.Collection;
 
 public class C4PlantUmlExporter {
 
+    public static final String PLANTUML_DEFINES_PROPERTY = "plantuml.defines";
+
     Logger log = LoggerFactory.getLogger(getClass());
 
     public void exportDiagramsC4Plant(Workspace workspace, Path out) {
@@ -28,7 +33,19 @@ public class C4PlantUmlExporter {
     }
 
     protected Collection<Diagram> createC4PlantUmlDiagrams(Workspace ws) {
-        C4PlantUMLExporter exporter = new C4PlantUMLExporter();
+        C4PlantUMLExporter exporter = new C4PlantUMLExporter() {
+            @Override
+            protected void writeIncludes(ModelView view, IndentingWriter writer) {
+                String[] defines = getViewOrViewSetProperty(view, PLANTUML_DEFINES_PROPERTY, "").split(",");
+                for (String define : defines) {
+                    if (!StringUtils.isNullOrEmpty(define)) {
+                        define = define.trim();
+                        writer.writeLine("!define " + define);
+                    }
+                }
+                super.writeIncludes(view, writer);
+            }
+        };
         ws.getViews().getViews()
                 .forEach(v -> v.addProperty(C4PlantUMLExporter.C4PLANTUML_STANDARD_LIBRARY_PROPERTY, "true"));
         return exporter.export(ws);

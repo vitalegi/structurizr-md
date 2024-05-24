@@ -59,6 +59,14 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
                         tags "Amazon Web Services - Route 53"
                     }
 
+                    infrastructureNode "s3://my-bucket" {
+                        tags "S3 Bucket"
+                    }
+
+                    infrastructureNode "Athena 1" {
+                        tags "Athena"
+                    }
+
                     elb = infrastructureNode "Elastic Load Balancer" {
                         description "Automatically distributes incoming application traffic."
                         tags "Amazon Web Services - Elastic Load Balancing"
@@ -82,8 +90,8 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
                     deploymentNode "Amazon RDS" {
                         tags "Amazon Web Services - RDS"
 
-                        deploymentNode "MySQL" {
-                            tags "Amazon Web Services - RDS MySQL instance"
+                        deploymentNode "Oracle 11g" {
+                            tags "Oracle"
 
                             databaseInstance = containerInstance database
                         }
@@ -148,14 +156,42 @@ workspace "Amazon Web Services Example" "An example AWS deployment architecture.
             element "Database" {
                 shape cylinder
             }
+            # [IMG_1]/[IMG_2] referencing a remote puml
+            element "S3 Bucket" {
+                properties {
+                    c4plantuml.sprite SimpleStorageServiceBucket
+                    stroke #7AA116
+                }
+            }
+            # [IMG_3] referencing a local file
+            element "Oracle" {
+                properties {
+                    c4plantuml.sprite oracle
+                }
+            }
+            # [IMG_4] referencing a remote file directly
+            element "Athena" {
+              stroke "#8C4FFF"
+              icon https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/main/dist/Analytics/Athena.png
+            }
         }
         properties {
             c4plantuml.tags true
             c4plantuml.legend false
             c4plantuml.elementProperties true
             c4plantuml.relationshipProperties true
+
+            # including remote resources manually
+            #plantuml.defines "aws https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/v18.0/dist"
+            #plantuml.includes "aws/AWSCommon.puml, aws/Storage/SimpleStorageServiceBucket.puml, theme/oracle.puml"
+
+            # referencing stdlib
+            plantuml.includes "<awslib/AWSCommon>, <awslib/Storage/SimpleStorageServiceBucket>, theme/oracle.puml"
+
+            # [IMG_3] referencing a local file
+            # plantuml.includes "theme/oracle.puml"
         }
-        themes https://static.structurizr.com/themes/amazon-web-services-2020.04.30/theme.json
+        #theme https://static.structurizr.com/themes/google-cloud-platform-v1.5/theme.json
     }
 
 }

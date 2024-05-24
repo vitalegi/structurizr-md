@@ -8,16 +8,24 @@ left to right direction
 !include <C4/C4_Context>
 !include <C4/C4_Container>
 !include <C4/C4_Deployment>
+!include <awslib/AWSCommon>
+!include <awslib/Storage/SimpleStorageServiceBucket>
+!include theme/oracle.puml
 
+AddElementTag("S3 Bucket", $bgColor="#dddddd", $borderColor="#9a9a9a", $fontColor="#000000", $sprite="SimpleStorageServiceBucket", $shadowing="", $borderStyle="solid")
 AddElementTag("Element", $bgColor="#ffffff", $borderColor="#888888", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
 AddElementTag("Container,Database", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Athena", $bgColor="#dddddd", $borderColor="#8c4fff", $fontColor="#000000", $sprite="img:https://raw.githubusercontent.com/awslabs/aws-icons-for-plantuml/main/dist/Analytics/Athena.png{scale=0.46875}", $shadowing="", $borderStyle="solid")
 AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Oracle", $bgColor="#ffffff", $borderColor="#888888", $fontColor="#000000", $sprite="oracle", $shadowing="", $borderStyle="solid")
 
 AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
 
 Deployment_Node(Live.AmazonWebServices, "Amazon Web Services", $type="", $descr="", $tags="Element", $link="") {
   Deployment_Node(Live.AmazonWebServices.USEast1, "US-East-1", $type="", $descr="", $tags="Element", $link="") {
     Deployment_Node(Live.AmazonWebServices.USEast1.Route53, "Route 53", $type="", $descr="Highly available and scalable cloud DNS service.", $tags="Element", $link="")
+    Deployment_Node(Live.AmazonWebServices.USEast1.s3mybucket, "s3://my-bucket", $type="", $descr="", $tags="S3 Bucket", $link="")
+    Deployment_Node(Live.AmazonWebServices.USEast1.Athena1, "Athena 1", $type="", $descr="", $tags="Athena", $link="")
     Deployment_Node(Live.AmazonWebServices.USEast1.ElasticLoadBalancer, "Elastic Load Balancer", $type="", $descr="Automatically distributes incoming application traffic.", $tags="Element", $link="")
     WithoutPropertyHeader()
     AddProperty("max","10")
@@ -31,8 +39,8 @@ Deployment_Node(Live.AmazonWebServices, "Amazon Web Services", $type="", $descr=
     }
 
     Deployment_Node(Live.AmazonWebServices.USEast1.AmazonRDS, "Amazon RDS", $type="", $descr="", $tags="Element", $link="") {
-      Deployment_Node(Live.AmazonWebServices.USEast1.AmazonRDS.MySQL, "MySQL", $type="", $descr="", $tags="Element", $link="") {
-        ContainerDb(Live.AmazonWebServices.USEast1.AmazonRDS.MySQL.Database_1, "Database", $techn="Relational database schema", $descr="Stores information regarding the veterinarians, the clients, and their pets.", $tags="Container,Database", $link="")
+      Deployment_Node(Live.AmazonWebServices.USEast1.AmazonRDS.Oracle11g, "Oracle 11g", $type="", $descr="", $tags="Oracle", $link="") {
+        ContainerDb(Live.AmazonWebServices.USEast1.AmazonRDS.Oracle11g.Database_1, "Database", $techn="Relational database schema", $descr="Stores information regarding the veterinarians, the clients, and their pets.", $tags="Container,Database", $link="")
       }
 
     }
@@ -41,7 +49,7 @@ Deployment_Node(Live.AmazonWebServices, "Amazon Web Services", $type="", $descr=
 
 }
 
-Rel(Live.AmazonWebServices.USEast1.Autoscalinggroup.AmazonEC2.WebApplication_1, Live.AmazonWebServices.USEast1.AmazonRDS.MySQL.Database_1, "Reads from and writes to", $techn="MySQL Protocol/SSL", $tags="Relationship", $link="")
+Rel(Live.AmazonWebServices.USEast1.Autoscalinggroup.AmazonEC2.WebApplication_1, Live.AmazonWebServices.USEast1.AmazonRDS.Oracle11g.Database_1, "Reads from and writes to", $techn="MySQL Protocol/SSL", $tags="Relationship", $link="")
 WithoutPropertyHeader()
 AddProperty("port","443")
 Rel(Live.AmazonWebServices.USEast1.Route53, Live.AmazonWebServices.USEast1.ElasticLoadBalancer, "Forwards requests to", $techn="HTTPS", $tags="Relationship", $link="")

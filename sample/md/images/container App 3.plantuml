@@ -7,6 +7,9 @@ top to bottom direction
 !include <C4/C4>
 !include <C4/C4_Context>
 !include <C4/C4_Container>
+!include <awslib/AWSCommon>
+!include <awslib/Storage/SimpleStorageServiceBucket>
+!include theme/oracle.puml
 
 AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
 
