@@ -1,0 +1,54 @@
+@startuml
+set separator none
+title System 1 - Deployment - Live
+
+left to right direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <C4/C4_Deployment>
+
+AddElementTag("Element", $bgColor="#ffffff", $borderColor="#888888", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
+
+WithoutPropertyHeader()
+AddProperty("port","443")
+Deployment_Node(Live.basicwebsitecom, "basic.website.com", $type="", $descr="", $tags="Element", $link="") {
+  Container(Live.basicwebsitecom.SinglePageApplication_1, "Single Page Application", $techn="", $descr="", $tags="Container", $link="")
+}
+
+WithoutPropertyHeader()
+AddProperty("port","443")
+Deployment_Node(Live.adminwebsitecom, "admin.website.com", $type="", $descr="", $tags="Element", $link="") {
+  Container(Live.adminwebsitecom.Administrativepages_1, "Administrative pages", $techn="", $descr="", $tags="Container", $link="")
+}
+
+Deployment_Node(Live.Nginxcluster, "Nginx cluster", $type="", $descr="", $tags="Element", $link="") {
+  Deployment_Node(Live.Nginxcluster.backendinternalwebsitecom, "backend.internal.website.com", $type="", $descr="", $tags="Element", $link="")
+}
+
+WithoutPropertyHeader()
+AddProperty("port","443")
+AddProperty("scale","0..1")
+Deployment_Node(Live.backendinternalk8swebsitecom, "backend.internal.k8s.website.com", $type="", $descr="", $tags="Element", $link="") {
+  WithoutPropertyHeader()
+  AddProperty("java version","21")
+  AddProperty("machine","shared-1x-cpu")
+  AddProperty("memory","512MB")
+  Deployment_Node(Live.backendinternalk8swebsitecom.ApplicationServer, "Application Server", $type="", $descr="", $tags="Element", $link="") {
+    Container(Live.backendinternalk8swebsitecom.ApplicationServer.Backend_1, "Backend", $techn="", $descr="", $tags="Container", $link="")
+  }
+
+}
+
+Rel(Live.basicwebsitecom.SinglePageApplication_1, Live.backendinternalk8swebsitecom.ApplicationServer.Backend_1, "Forwards", $techn="", $tags="Relationship", $link="")
+Rel(Live.adminwebsitecom.Administrativepages_1, Live.backendinternalk8swebsitecom.ApplicationServer.Backend_1, "Uses", $techn="", $tags="Relationship", $link="")
+Rel(Live.basicwebsitecom.SinglePageApplication_1, Live.Nginxcluster.backendinternalwebsitecom, "", $techn="", $tags="Relationship", $link="")
+Rel(Live.adminwebsitecom.Administrativepages_1, Live.Nginxcluster.backendinternalwebsitecom, "", $techn="", $tags="Relationship", $link="")
+Rel(Live.Nginxcluster.backendinternalwebsitecom, Live.backendinternalk8swebsitecom.ApplicationServer.Backend_1, "", $techn="", $tags="Relationship", $link="")
+
+hide stereotypes
+@enduml

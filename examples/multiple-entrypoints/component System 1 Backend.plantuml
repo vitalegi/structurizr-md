@@ -1,0 +1,22 @@
+@startuml
+set separator none
+title System 1 - Backend - Components
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Component>
+
+AddElementTag("Component", $bgColor="#003559", $borderColor="#00253e", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+AddBoundaryTag("Container", $bgColor="#ffffff", $borderColor="#004c76", $fontColor="#004c76", $shadowing="", $borderStyle="solid")
+
+Container_Boundary("System1.Backend_boundary", "Backend", $tags="Container") {
+  Component(System1.Backend.BasicAPI, "Basic API", $techn="", $descr="", $tags="Component", $link="")
+  Component(System1.Backend.AdminAPI, "Admin API", $techn="", $descr="", $tags="Component", $link="")
+}
+
+
+hide stereotypes
+@enduml

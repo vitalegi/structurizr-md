@@ -1,0 +1,23 @@
+@startuml
+set separator none
+title System 1 - System Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+AddElementTag("Software System", $bgColor="#0353a4", $borderColor="#023a72", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Element", $bgColor="#dddddd", $borderColor="#9a9a9a", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
+
+Person(User, "User", $descr="", $tags="Element", $link="")
+Person(Admin, "Admin", $descr="", $tags="Element", $link="")
+System(System1, "System 1", $descr="", $tags="Software System", $link="")
+
+Rel(User, System1, "Uses", $techn="", $tags="Relationship", $link="")
+Rel(Admin, System1, "Uses", $techn="", $tags="Relationship", $link="")
+
+hide stereotypes
+@enduml

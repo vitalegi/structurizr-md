@@ -1,0 +1,34 @@
+@startuml
+set separator none
+title System 1 - Containers
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+AddElementTag("Element", $bgColor="#dddddd", $borderColor="#9a9a9a", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
+
+AddBoundaryTag("Software System", $bgColor="#ffffff", $borderColor="#023a72", $fontColor="#023a72", $shadowing="", $borderStyle="solid")
+
+Person(User, "User", $descr="", $tags="Element", $link="")
+Person(Admin, "Admin", $descr="", $tags="Element", $link="")
+
+System_Boundary("System1_boundary", "System 1", $tags="Software System") {
+  Container(System1.SinglePageApplication, "Single Page Application", $techn="", $descr="", $tags="Container", $link="")
+  Container(System1.Administrativepages, "Administrative pages", $techn="", $descr="", $tags="Container", $link="")
+  Container(System1.Backend, "Backend", $techn="", $descr="", $tags="Container", $link="")
+  Container(System1.RDBMS, "RDBMS", $techn="", $descr="", $tags="Container", $link="")
+}
+
+Rel(User, System1.SinglePageApplication, "Uses", $techn="", $tags="Relationship", $link="")
+Rel(Admin, System1.Administrativepages, "Uses", $techn="", $tags="Relationship", $link="")
+Rel(System1.SinglePageApplication, System1.Backend, "Forwards", $techn="", $tags="Relationship", $link="")
+Rel(System1.Administrativepages, System1.Backend, "Uses", $techn="", $tags="Relationship", $link="")
+
+hide stereotypes
+@enduml
