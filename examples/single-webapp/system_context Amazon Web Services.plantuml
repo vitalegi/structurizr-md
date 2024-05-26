@@ -1,0 +1,22 @@
+@startuml
+set separator none
+title Amazon Web Services - System Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <awslib/AWSCommon>
+!include <awslib/Storage/SimpleStorageServiceBucket>
+
+AddElementTag("Software System", $bgColor="#0353a4", $borderColor="#023a72", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
+
+System(Reader, "Reader", $descr="Allows users to access the reader", $tags="Software System", $link="")
+System(AmazonWebServices, "Amazon Web Services", $descr="", $tags="Software System", $link="")
+
+Rel(Reader, AmazonWebServices, "Upload books", $techn="", $tags="Relationship", $link="")
+
+hide stereotypes
+@enduml

@@ -1,0 +1,29 @@
+@startuml
+set separator none
+title Amazon Web Services - Containers
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <awslib/AWSCommon>
+!include <awslib/Storage/SimpleStorageServiceBucket>
+
+AddElementTag("Software System", $bgColor="#0353a4", $borderColor="#023a72", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
+
+AddBoundaryTag("Software System", $bgColor="#ffffff", $borderColor="#023a72", $fontColor="#023a72", $shadowing="", $borderStyle="solid")
+
+System(Reader, "Reader", $descr="Allows users to access the reader", $tags="Software System", $link="")
+
+System_Boundary("AmazonWebServices_boundary", "Amazon Web Services", $tags="Software System") {
+  Container(AmazonWebServices.AWSS3Bucket, "AWS S3 Bucket", $techn="", $descr="Stores books", $tags="Container", $link="")
+}
+
+Rel(Reader, AmazonWebServices.AWSS3Bucket, "Upload books", $techn="", $tags="Relationship", $link="")
+
+hide stereotypes
+@enduml

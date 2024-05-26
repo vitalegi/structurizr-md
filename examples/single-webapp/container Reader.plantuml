@@ -1,0 +1,39 @@
+@startuml
+set separator none
+title Reader - Containers
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <awslib/AWSCommon>
+!include <awslib/Storage/SimpleStorageServiceBucket>
+
+AddElementTag("Software System", $bgColor="#0353a4", $borderColor="#023a72", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Element", $bgColor="#dddddd", $borderColor="#9a9a9a", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
+
+AddBoundaryTag("Software System", $bgColor="#ffffff", $borderColor="#023a72", $fontColor="#023a72", $shadowing="", $borderStyle="solid")
+
+Person(User, "User", $descr="", $tags="Element", $link="")
+Person(Sysadmin, "Sysadmin", $descr="", $tags="Element", $link="")
+System(AmazonWebServices, "Amazon Web Services", $descr="", $tags="Software System", $link="")
+
+System_Boundary("Reader_boundary", "Reader", $tags="Software System") {
+  Container(Reader.SinglePageApplication, "Single Page Application", $techn="Vue 3", $descr="Allows users to use reader functionalities.", $tags="Container", $link="")
+  Container(Reader.Backend, "Backend", $techn="Spring Boot 3, Java 21", $descr="Business Logic of the reader", $tags="Container", $link="")
+  Container(Reader.RDBMS, "RDBMS", $techn="Postgres", $descr="Stores books informations", $tags="Container", $link="")
+}
+
+Rel(Sysadmin, Reader.RDBMS, "Access", $techn="", $tags="Relationship", $link="")
+Rel(Reader.SinglePageApplication, Reader.Backend, "Uses", $techn="", $tags="Relationship", $link="")
+Rel(Reader.Backend, Reader.RDBMS, "Reads from and writes to", $techn="Postgres Protocol/SSL", $tags="Relationship", $link="")
+Rel(Reader.Backend, AmazonWebServices, "Upload books", $techn="", $tags="Relationship", $link="")
+Rel(Reader.SinglePageApplication, AmazonWebServices, "Download books", $techn="", $tags="Relationship", $link="")
+Rel(User, Reader.SinglePageApplication, "Uses", $techn="", $tags="Relationship", $link="")
+
+hide stereotypes
+@enduml

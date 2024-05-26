@@ -1,0 +1,59 @@
+@startuml
+set separator none
+title Reader - Deployment - Live
+
+left to right direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <C4/C4_Deployment>
+!include <awslib/AWSCommon>
+!include <awslib/Storage/SimpleStorageServiceBucket>
+
+AddElementTag("Element", $bgColor="#ffffff", $borderColor="#888888", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
+
+Deployment_Node(Live.Netlify, "Netlify", $type="", $descr="", $tags="Element", $link="") {
+  WithoutPropertyHeader()
+  AddProperty("port","443")
+  Deployment_Node(Live.Netlify.appnetlifyapp, "app.netlify.app", $type="", $descr="", $tags="Element", $link="") {
+    Deployment_Node(Live.Netlify.appnetlifyapp.ReverseProxy, "Reverse Proxy", $type="", $descr="", $tags="Element", $link="")
+    Container(Live.Netlify.appnetlifyapp.SinglePageApplication_1, "Single Page Application", $techn="Vue 3", $descr="Allows users to use reader functionalities.", $tags="Container", $link="")
+  }
+
+}
+
+Deployment_Node(Live.flyio, "fly.io", $type="", $descr="", $tags="Element", $link="") {
+  WithoutPropertyHeader()
+  AddProperty("port","443")
+  AddProperty("scale","0..1")
+  Deployment_Node(Live.flyio.appflyio, "app.fly.io", $type="", $descr="", $tags="Element", $link="") {
+    WithoutPropertyHeader()
+    AddProperty("java version","21")
+    AddProperty("machine","shared-1x-cpu")
+    AddProperty("memory","512MB")
+    Deployment_Node(Live.flyio.appflyio.ApplicationServer, "Application Server", $type="", $descr="", $tags="Element", $link="") {
+      Container(Live.flyio.appflyio.ApplicationServer.Backend_1, "Backend", $techn="Spring Boot 3, Java 21", $descr="Business Logic of the reader", $tags="Container", $link="")
+    }
+
+  }
+
+  WithoutPropertyHeader()
+  AddProperty("machine","shared-1x-cpu@256MB")
+  AddProperty("postgres version","15")
+  AddProperty("scale","1")
+  Deployment_Node(Live.flyio.appflydb, "app.fly.db", $type="", $descr="", $tags="Element", $link="") {
+    Container(Live.flyio.appflydb.RDBMS_1, "RDBMS", $techn="Postgres", $descr="Stores books informations", $tags="Container", $link="")
+  }
+
+}
+
+Rel(Live.Netlify.appnetlifyapp.SinglePageApplication_1, Live.flyio.appflyio.ApplicationServer.Backend_1, "Uses", $techn="", $tags="Relationship", $link="")
+Rel(Live.flyio.appflyio.ApplicationServer.Backend_1, Live.flyio.appflydb.RDBMS_1, "Reads from and writes to", $techn="Postgres Protocol/SSL", $tags="Relationship", $link="")
+Rel(Live.Netlify.appnetlifyapp.ReverseProxy, Live.flyio.appflyio.ApplicationServer.Backend_1, "HTTP Forward", $techn="Rewrites /api as /", $tags="Relationship", $link="")
+
+hide stereotypes
+@enduml

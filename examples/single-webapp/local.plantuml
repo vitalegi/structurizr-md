@@ -1,0 +1,59 @@
+@startuml
+set separator none
+title Deployment - Local
+
+left to right direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+!include <C4/C4_Deployment>
+!include <awslib/AWSCommon>
+!include <awslib/Storage/SimpleStorageServiceBucket>
+
+AddElementTag("S3 Bucket", $bgColor="#ffffff", $borderColor="#888888", $fontColor="#000000", $sprite="SimpleStorageServiceBucket", $shadowing="", $borderStyle="solid")
+AddElementTag("Element", $bgColor="#ffffff", $borderColor="#888888", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+AddElementTag("Container", $bgColor="#006daa", $borderColor="#004c76", $fontColor="#000000", $sprite="", $shadowing="", $borderStyle="solid")
+
+AddRelTag("Relationship", $textColor="#707070", $lineColor="#707070", $lineStyle = "")
+
+WithoutPropertyHeader()
+AddProperty("port","9000")
+Deployment_Node(Local.NGinx, "NGinx", $type="", $descr="", $tags="Element", $link="") {
+  Deployment_Node(Local.NGinx.ReverseProxy, "Reverse Proxy", $type="", $descr="", $tags="Element", $link="")
+  Container(Local.NGinx.SinglePageApplication_1, "Single Page Application", $techn="Vue 3", $descr="Allows users to use reader functionalities.", $tags="Container", $link="")
+}
+
+WithoutPropertyHeader()
+AddProperty("java version","21")
+AddProperty("port","8080")
+Deployment_Node(Local.ApplicationServer, "Application Server", $type="", $descr="", $tags="Element", $link="") {
+  Container(Local.ApplicationServer.Backend_1, "Backend", $techn="Spring Boot 3, Java 21", $descr="Business Logic of the reader", $tags="Container", $link="")
+}
+
+WithoutPropertyHeader()
+AddProperty("postgres version","15")
+Deployment_Node(Local.Database, "Database", $type="", $descr="", $tags="Element", $link="") {
+  Container(Local.Database.RDBMS_1, "RDBMS", $techn="Postgres", $descr="Stores books informations", $tags="Container", $link="")
+}
+
+Deployment_Node(Local.AmazonWebServices, "Amazon Web Services", $type="", $descr="", $tags="Element", $link="") {
+  Deployment_Node(Local.AmazonWebServices.USEast1, "US-East-1", $type="", $descr="", $tags="Element", $link="") {
+    WithoutPropertyHeader()
+    AddProperty("url","s3://my-bucket-01")
+    Deployment_Node(Local.AmazonWebServices.USEast1.mybucket01, "my-bucket-01", $type="", $descr="", $tags="S3 Bucket", $link="") {
+      Container(Local.AmazonWebServices.USEast1.mybucket01.AWSS3Bucket_1, "AWS S3 Bucket", $techn="", $descr="Stores books", $tags="Container", $link="")
+    }
+
+  }
+
+}
+
+Rel(Local.NGinx.SinglePageApplication_1, Local.ApplicationServer.Backend_1, "Uses", $techn="", $tags="Relationship", $link="")
+Rel(Local.ApplicationServer.Backend_1, Local.Database.RDBMS_1, "Reads from and writes to", $techn="Postgres Protocol/SSL", $tags="Relationship", $link="")
+Rel(Local.NGinx.ReverseProxy, Local.ApplicationServer.Backend_1, "HTTP Forward", $techn="HTTP Forward", $tags="Relationship", $link="")
+Rel(Local.NGinx.SinglePageApplication_1, Local.AmazonWebServices.USEast1.mybucket01.AWSS3Bucket_1, "Download books", $techn="", $tags="Relationship", $link="")
+Rel(Local.ApplicationServer.Backend_1, Local.AmazonWebServices.USEast1.mybucket01.AWSS3Bucket_1, "Upload books", $techn="", $tags="Relationship", $link="")
+
+hide stereotypes
+@enduml
